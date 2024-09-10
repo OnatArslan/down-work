@@ -9,6 +9,7 @@
   "author": "Onat Arslan",
   "license": "ISC",
   "dependencies": {
+    "down-work": "file:",
     "express": "^4.19.2"
   }
 }
