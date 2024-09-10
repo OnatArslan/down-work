@@ -9,6 +9,8 @@ import compression from 'compression';
 import expressSession from 'express-session';
 import { rateLimit } from 'express-rate-limit';
 
+import prisma from './db/prisma.mjs';
+
 const app = express();
 // Create server based on app
 const server = http.createServer(app);
@@ -36,10 +38,15 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-app.get(`/`, (req, res, next) => {
-  res.status(200).json({
-    message: `Hello world`,
-  });
+// Catch-all route for non-existent routes
+app.get(`*`, async (req, res, next) => {
+  res.status(404).json({ error: 'Route not found' });
+});
+
+// Error-handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Internal Server Error' });
 });
 
 export default server;
