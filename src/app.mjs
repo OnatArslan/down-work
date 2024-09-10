@@ -41,3 +41,5 @@ app.get(`/`, (req, res, next) => {
     message: `Hello world`,
   });
 });
+
+export default server;
