@@ -9,6 +9,7 @@ const userSchema = Joi.object({
   role: Joi.string().valid('freelancer', 'client', 'admin').default('client'),
   profilePictureUrl: Joi.string().uri().optional(),
   bio: Joi.string().optional(),
+  passwordChangedAt: Joi.date().optional(),
   createdAt: Joi.date().optional(), // Optional because it will be set by default
   updatedAt: Joi.date().optional(), // Optional because it will be set automatically
 });
