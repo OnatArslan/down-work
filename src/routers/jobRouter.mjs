@@ -1,12 +1,8 @@
 import express from 'express';
-import {
-  getAllUsers,
-  createUser,
-  getUser,
-} from '../controllers/userController.mjs';
+import {} from '../controllers/jobController.mjs';
 
 const router = express.Router();
 
-router.route(`/`).get(getAllUsers).post(createUser);
+router.route(`/`).get().post();
 
 export default router;
