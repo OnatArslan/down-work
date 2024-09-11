@@ -41,8 +41,8 @@ app.use(limiter);
 
 app.get(`/`, async (req, res, next) => {
   const userData = {
-    username: `sidik`,
-    email: `sidik@gmail.com`,
+    username: `bitli`,
+    email: `bitli@gmail.com`,
     password: `123456789`,
     passwordConfirmation: `123456789`,
   };
@@ -52,8 +52,8 @@ app.get(`/`, async (req, res, next) => {
   }
 
   const newUser = await prisma.user.signUp({
-    username: `sidik`,
-    email: `sidik@gmail.com`,
+    username: `bitli`,
+    email: `bitli@gmail.com`,
     password: `123456789`,
   });
 
