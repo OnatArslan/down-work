@@ -1,6 +1,7 @@
 // Import any necessary dependencies
 import prisma from '../db/prisma.mjs';
-import userSchema from '../joi/job.mjs';
+import userSchema from '../joi/user.mjs';
+import bcrypt from 'bcrypt';
 
 // Define the getAllUsers controller function
 const getAllUsers = async (req, res, next) => {
@@ -17,8 +18,24 @@ const getAllUsers = async (req, res, next) => {
 // Define the createUser controller function
 const createUser = async (req, res, next) => {
   try {
-    const userData = req.body;
-    const user = prisma.user.create();
+    const rawData = req.body;
+    const validData = await userSchema.validateAsync(rawData);
+    if (validData.error) {
+      return next(new Error(validData.error));
+    }
+    delete validData.passwordConfirmation;
+    const hashedPassword = await bcrypt.hash(validData.password, 10);
+
+    const freshUser = await prisma.user.create({
+      data: {
+        ...validData,
+        password: hashedPassword,
+      },
+    });
+    res.status(200).json({
+      status: `success`,
+      user: freshUser,
+    });
   } catch (error) {
     // Handle any errors
     next(error);
