@@ -6,9 +6,11 @@ model User {
     passwordConfirmation String
     role Role @default(client)
     profilePictureUrl String?
-    bio String @db.Text
+    bio String? @db.Text
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    // Here comes releation fields
+    createdJobs Job[]
     @@map("user")
     @@index([email])
     
