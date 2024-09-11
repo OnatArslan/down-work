@@ -39,6 +39,7 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+// This is test route
 app.get(`/`, async (req, res, next) => {
   const userData = {
     username: `bitli`,
