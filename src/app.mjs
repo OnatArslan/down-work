@@ -1,3 +1,4 @@
+// Importing required packages
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
@@ -9,12 +10,15 @@ import compression from 'compression';
 import expressSession from 'express-session';
 import { rateLimit } from 'express-rate-limit';
 
-import prisma from './db/prisma.mjs';
-import userSchema from './joi/user.mjs';
+// Import routers
+import userRouter from './routers/userRouter.mjs';
 
+// Create app
 const app = express();
+
 // Create server based on app
 const server = http.createServer(app);
+
 // Using npm package middlewares
 app.use(cors());
 app.use(morgan('dev'));
@@ -31,7 +35,6 @@ app.use(
     cookie: { secure: true },
   })
 );
-
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -39,30 +42,8 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// This is test route
-app.get(`/`, async (req, res, next) => {
-  const userData = {
-    username: `bitli`,
-    email: `bitli@gmail.com`,
-    password: `123456789`,
-    passwordConfirmation: `123456789`,
-  };
-  const isValid = await userSchema.validateAsync(userData);
-  if (isValid.error) {
-    return next(new Error(isValid.error));
-  }
-
-  const newUser = await prisma.user.signUp({
-    username: `bitli`,
-    email: `bitli@gmail.com`,
-    password: `123456789`,
-  });
-
-  res.status(200).json({
-    message: `hello`,
-    user: newUser,
-  });
-});
+// Use routers on app ---------------------------------------------
+app.use(`/users`, userRouter);
 
 // Catch-all route for non-existent routes
 app.get(`*`, async (req, res, next) => {
