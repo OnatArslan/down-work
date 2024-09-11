@@ -14,5 +14,26 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
-// Export the getAllUsers controller
-export { getAllUsers };
+// Define the createUser controller function
+const createUser = async (req, res, next) => {
+  try {
+    res.status(201).json();
+  } catch (error) {
+    // Handle any errors
+    next(error);
+  }
+};
+
+// Define the getUser controller function
+const getUser = async (req, res, next) => {
+  try {
+    // Send the response
+    res.status(200).json(user);
+  } catch (error) {
+    // Handle any errors
+    next(error);
+  }
+};
+
+// Export the createUser and getUser controllers
+export { getAllUsers, createUser, getUser };
