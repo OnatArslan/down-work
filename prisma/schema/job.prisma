@@ -1,7 +1,7 @@
 model Job {
     id Int @id @default(autoincrement())
     title String
-    description String? @db.Text
+    description String @db.Text
     budget Decimal
     paymentType PaymentType
     status Status @default(open)
