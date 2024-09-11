@@ -21,6 +21,39 @@ const getAllJobs = async (req, res, next) => {
   }
 };
 
+// Function to get a job by ID
+const getJob = async (req, res, next) => {
+  try {
+    if (!req.params.jobId) {
+      return next(new Error(`Must enter a job ID`));
+    }
+    const job = await prisma.job.findUniqueOrThrow({
+      where: {
+        // Use Number because this is an integer field but req.params.jobId is string
+        id: Number(req.params.jobId),
+      },
+      include: {
+        employer: {
+          select: {
+            username: true,
+            email: true,
+            bio: true,
+          },
+        },
+      },
+    });
+    if (!job) {
+      return next(new Error(`Can not find any job with given ID`));
+    }
+    res.status(200).json({
+      status: `success`,
+      job: job,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Must change req.user after auth controller
 const createJob = async (req, res, next) => {
   try {
@@ -40,17 +73,6 @@ const createJob = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
-  }
-};
-
-// Function to get a job by ID
-const getJob = async (req, res) => {
-  try {
-    res.status(200).json({
-      status: `success`,
-    });
-  } catch (error) {
-    // Handle error
   }
 };
 
