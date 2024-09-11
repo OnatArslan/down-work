@@ -1,6 +1,6 @@
 // Import any necessary dependencies
-
 import prisma from '../db/prisma.mjs';
+import userSchema from '../joi/job.mjs';
 
 // Define the getAllUsers controller function
 const getAllUsers = async (req, res, next) => {
@@ -17,7 +17,8 @@ const getAllUsers = async (req, res, next) => {
 // Define the createUser controller function
 const createUser = async (req, res, next) => {
   try {
-    res.status(201).json();
+    const userData = req.body;
+    const user = prisma.user.create();
   } catch (error) {
     // Handle any errors
     next(error);
