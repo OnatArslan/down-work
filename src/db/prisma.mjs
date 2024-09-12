@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+let prisma = new PrismaClient();
 
 // Here define before and after hooks
 
