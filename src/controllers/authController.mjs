@@ -36,6 +36,7 @@ const signUp = async (req, res, next) => {
       expiresIn: `2 days`,
     });
     // Send token via cookie
+    // Note it token payload contains all user data
     res.cookie(`token`, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // Ensures the cookie is sent only over HTTPS in production
