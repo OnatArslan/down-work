@@ -26,6 +26,10 @@ const signUp = async (req, res, next) => {
         ...validData,
         password: hashedPassword,
       },
+      // omit for omit fields from select
+      omit: {
+        password: true,
+      },
     });
 
     res.status(200).json({
