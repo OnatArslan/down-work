@@ -6,7 +6,7 @@ model User {
     role Role @default(client)
     profilePictureUrl String?
     bio String? @db.Text
-    passwordChangedAt DateTime @default(now())
+    passwordChangedAt DateTime
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     // Here comes releation fields
