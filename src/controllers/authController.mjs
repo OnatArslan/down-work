@@ -1,4 +1,5 @@
-import prisma from '../db/prisma.mjs';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 import userSchema from '../joi/user.mjs';
 import bcrypt from 'bcrypt';
 
@@ -27,10 +28,11 @@ const signUp = async (req, res, next) => {
         password: hashedPassword,
       },
     });
-
+    const users = await prisma.user.findMany();
     res.status(200).json({
       status: `success`,
-      user: newUser,
+      //   user: newUser,
+      users: users,
     });
   } catch (error) {
     next(error);
