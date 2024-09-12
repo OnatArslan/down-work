@@ -1,5 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import prisma from '../db/prisma.mjs';
 import userSchema from '../joi/user.mjs';
 import bcrypt from 'bcrypt';
 
