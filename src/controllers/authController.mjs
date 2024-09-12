@@ -1,6 +1,7 @@
 import prisma from '../db/prisma.mjs';
 import userSchema from '../joi/user.mjs';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const signUp = async (req, res, next) => {
   try {
@@ -19,8 +20,7 @@ const signUp = async (req, res, next) => {
     if (!hashedPassword) {
       return next(new Error(`Can not hash password.Please try again later`));
     }
-    console.log(validData);
-
+    // Create new user with valid data
     const newUser = await prisma.user.create({
       data: {
         ...validData,
@@ -31,7 +31,17 @@ const signUp = async (req, res, next) => {
         password: true,
       },
     });
-
+    // Create a JWT and send it via cookie
+    const token = jwt.sign(newUser, process.env.JWT_SECRET, {
+      expiresIn: `2 days`,
+    });
+    // Send token via cookie
+    res.cookie(`token`, token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Ensures the cookie is sent only over HTTPS in production
+      maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days in milliseconds
+    });
+    // return response and send user data
     res.status(200).json({
       status: `success`,
       user: newUser,
