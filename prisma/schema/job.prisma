@@ -5,8 +5,12 @@ model Job {
   budget      Decimal
   paymentType PaymentType
   status      Status      @default(open)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   employerId  Int
   employer    User        @relation(fields: [employerId], references: [id])
+
+  @@map("job")
 }
 
 enum PaymentType {
