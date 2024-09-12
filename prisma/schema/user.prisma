@@ -1,23 +1,22 @@
 model User {
-    id Int @id @default(autoincrement())
-    username  String  
-    email String @unique 
-    password String 
-    role Role @default(client)
-    profilePictureUrl String?
-    bio String? @db.Text
-    passwordChangedAt DateTime
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    // Here comes releation fields
-    createdJobs Job[]
-    @@map("user")
-    @@index([email])
-    
+  id                Int      @id @default(autoincrement())
+  username          String
+  email             String   @unique
+  bio               String?
+  createdAt         DateTime @default(now())
+  password          String
+  profilePictureUrl String?
+  role              Role     @default(client)
+  updatedAt         DateTime @updatedAt
+  passwordChangedAt DateTime
+  createdJobs       Job[]
+
+  @@index([email])
+  @@map("user")
 }
 
 enum Role {
-    freelancer
-    client
-    admin
+  freelancer
+  client
+  admin
 }

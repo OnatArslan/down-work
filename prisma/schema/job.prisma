@@ -1,22 +1,22 @@
 model Job {
-    id Int @id @default(autoincrement())
-    title String
-    description String @db.Text
-    budget Decimal
-    paymentType PaymentType
-    status Status @default(open)
-    employer User @relation(fields: [employerId],references: [id])
-    employerId Int
+  id          Int         @id @default(autoincrement())
+  title       String
+  description String
+  budget      Decimal
+  paymentType PaymentType
+  status      Status      @default(open)
+  employerId  Int
+  employer    User        @relation(fields: [employerId], references: [id])
 }
 
 enum PaymentType {
-    hourly
-    fixed
+  hourly
+  fixed
 }
 
 enum Status {
-    open
-    progress
-    complated
-    closed
+  open
+  progress
+  complated
+  closed
 }

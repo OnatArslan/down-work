@@ -25,6 +25,7 @@ const signUp = async (req, res, next) => {
       data: {
         ...validData,
         password: hashedPassword,
+        passwordChangedAt: Date.now(),
       },
     });
     const users = await prisma.user.findMany();
