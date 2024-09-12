@@ -27,11 +27,10 @@ const signUp = async (req, res, next) => {
         password: hashedPassword,
       },
     });
-    const users = await prisma.user.findMany();
+
     res.status(200).json({
       status: `success`,
-      //   user: newUser,
-      users: users,
+      user: newUser,
     });
   } catch (error) {
     next(error);
