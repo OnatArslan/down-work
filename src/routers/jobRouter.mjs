@@ -5,9 +5,11 @@ import {
   createJob,
 } from '../controllers/jobController.mjs';
 
+import { verify } from '../controllers/authController.mjs';
+
 const router = express.Router();
 
-router.route(`/`).get(getAllJobs).post(createJob);
+router.route(`/`).get(verify, getAllJobs).post(createJob);
 
 router.route(`/:jobId`).get(getJob);
 

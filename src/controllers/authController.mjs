@@ -96,3 +96,35 @@ export const signIn = async (req, res, next) => {
     next(error);
   }
 };
+
+export const logOut = async (req, res, next) => {
+  try {
+    // Clear jwt token from cookies
+    res.clearCookie(`token`, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    });
+    // Send response with message
+    res.status(200).json({
+      status: `success`,
+      message: `Successfuly logged out.`,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const verify = async (req, res, next) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return next(
+        new Error(`Token is missing.Please log in to get access to this route`)
+      );
+    }
+    console.log(token);
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
