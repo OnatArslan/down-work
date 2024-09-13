@@ -124,14 +124,35 @@ export const verify = async (req, res, next) => {
       );
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
 
     if (!decoded) {
       return next(
         new Error(`Token is invalid or expired,Please log in to get access`)
       );
     }
+    // Get user from database with token payload data
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+    });
+    // If user is not exist return and error and give message
+    if (!user) {
+      return next(
+        new Error(`Account deleted recently.Please sign-up for new account`)
+      );
+    }
+    // Get unix time from user.passwordChangedAt
+    const unixPasswordTimeStampt = Math.floor(
+      user.passwordChangedAt.getTime() / 1000
+    );
 
+    // If user changes password after token is issued return error
+    if (unixPasswordTimeStampt > decoded.iat) {
+      return next(
+        new Error(
+          `User receantly changes password.Please login again to get access`
+        )
+      );
+    }
     next();
   } catch (error) {
     next(error);
