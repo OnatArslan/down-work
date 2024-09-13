@@ -123,7 +123,11 @@ export const verify = async (req, res, next) => {
         new Error(`Token is missing.Please log in to get access to this route`)
       );
     }
-    console.log(token);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decoded);
+    const user = await prisma.user.findUnique({ where: { id: decoded.id } });
+    console.log(user);
+
     next();
   } catch (error) {
     next(error);
