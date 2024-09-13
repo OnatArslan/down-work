@@ -75,6 +75,20 @@ export const signIn = async (req, res, next) => {
       return next(new Error(`Invalid credentials`));
     }
 
+    // Create token
+    const token = jwt.sign(user, process.env.JWT_SECRET, {
+      expiresIn: `2 days`,
+    });
+
+    // Send token via cookie
+    // Note it token payload contains all user data
+    res.cookie(`token`, token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Ensures the cookie is sent only over HTTPS in production
+      maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days in milliseconds
+    });
+
+    // Send response with success status code
     res.status(200).json({
       status: `success`,
     });
