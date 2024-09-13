@@ -3,7 +3,7 @@ import userSchema from '../joi/user.mjs';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-const signUp = async (req, res, next) => {
+export const signUp = async (req, res, next) => {
   try {
     if (req.body.role) {
       return next(new Error(`Can not give role to yourself!!`));
@@ -52,4 +52,14 @@ const signUp = async (req, res, next) => {
   }
 };
 
-export { signUp };
+export const signIn = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    console.log(email, password);
+    res.status(200).json({
+      status: `success`,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

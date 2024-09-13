@@ -7,9 +7,10 @@ model Job {
   status      Status      @default(open)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  // Releatinships
   employerId  Int
   employer    User        @relation(fields: [employerId], references: [id])
-
+  
   @@map("job")
 }
 
