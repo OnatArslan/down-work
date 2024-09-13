@@ -125,8 +125,12 @@ export const verify = async (req, res, next) => {
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log(decoded);
-    const user = await prisma.user.findUnique({ where: { id: decoded.id } });
-    console.log(user);
+
+    if (!decoded) {
+      return next(
+        new Error(`Token is invalid or expired,Please log in to get access`)
+      );
+    }
 
     next();
   } catch (error) {
