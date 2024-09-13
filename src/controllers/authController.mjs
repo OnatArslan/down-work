@@ -116,6 +116,7 @@ export const logOut = async (req, res, next) => {
 
 export const verify = async (req, res, next) => {
   try {
+    // First check if token exist if not return an error with clear message
     const token = req.cookies.token;
     if (!token) {
       return next(
