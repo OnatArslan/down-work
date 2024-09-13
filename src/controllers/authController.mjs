@@ -116,43 +116,52 @@ export const logOut = async (req, res, next) => {
 
 export const verify = async (req, res, next) => {
   try {
-    // First check if token exist if not return an error with clear message
+    // First check if token exists; if not, return an error with a clear message
     const token = req.cookies.token;
     if (!token) {
       return next(
-        new Error(`Token is missing.Please log in to get access to this route`)
+        new Error(
+          'Token is missing. Please log in to get access to this route.'
+        )
       );
     }
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    if (!decoded) {
+    // Verify the token
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
       return next(
-        new Error(`Token is invalid or expired,Please log in to get access`)
+        new Error('Token is invalid or expired. Please log in to get access.')
       );
     }
+
     // Get user from database with token payload data
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
     });
-    // If user is not exist return and error and give message
+
+    // If user does not exist, return an error and give a message
     if (!user) {
       return next(
-        new Error(`Account deleted recently.Please sign-up for new account`)
+        new Error('Account deleted recently. Please sign up for a new account.')
       );
     }
-    // Get unix time from user.passwordChangedAt
-    const unixPasswordTimeStampt = Math.floor(
+
+    // Get Unix time from user.passwordChangedAt
+    const passwordUnixTimestamp = Math.floor(
       user.passwordChangedAt.getTime() / 1000
     );
 
-    // If user changes password after token is issued return error
-    if (unixPasswordTimeStampt > decoded.iat) {
+    // If user changes password after token is issued, return an error
+    if (passwordUnixTimestamp > decoded.iat) {
       return next(
         new Error(
-          `User receantly changes password.Please login again to get access`
+          'User recently changed password. Please log in again to get access.'
         )
       );
     }
+    // Attached user to req.user
     req.user = user;
     next();
   } catch (error) {
