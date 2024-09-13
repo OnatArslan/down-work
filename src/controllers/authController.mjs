@@ -153,6 +153,7 @@ export const verify = async (req, res, next) => {
         )
       );
     }
+    req.user = user;
     next();
   } catch (error) {
     next(error);

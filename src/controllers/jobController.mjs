@@ -12,6 +12,7 @@ const getAllJobs = async (req, res, next) => {
         },
       },
     });
+    // Return response with 200 code
     res.status(200).json({
       status: `success`,
       jobs: jobs,
