@@ -54,10 +54,12 @@ export const signUp = async (req, res, next) => {
 
 export const signIn = async (req, res, next) => {
   try {
+    // Check credentials if they are not exist return error!
     const { email, password } = req.body;
     if (!email || !password) {
       return next(new Error(`Missing credentials!!`));
     }
+    // Find user with given email
     const user = await prisma.user.findFirst({
       where: {
         email: email,
