@@ -55,7 +55,23 @@ export const signUp = async (req, res, next) => {
 export const signIn = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    console.log(email, password);
+    if (!email || !password) {
+      return next(new Error(`Missing credentials!!`));
+    }
+    const user = await prisma.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+    if (!user) {
+      return next(new Error(`Invalid email`));
+    }
+    // Check password if false return error
+    const checkPassword = await bcrypt.compare(String(password), user.password);
+    if (!checkPassword) {
+      return next(new Error(`Invalid credentials`));
+    }
+
     res.status(200).json({
       status: `success`,
     });
