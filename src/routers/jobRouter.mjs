@@ -4,6 +4,7 @@ import {
   getJob,
   createJob,
   updateJob,
+  deleteJob,
 } from '../controllers/jobController.mjs';
 
 import { verify } from '../controllers/authController.mjs';
@@ -12,6 +13,6 @@ const router = express.Router();
 
 router.route(`/`).get(getAllJobs).post(verify, createJob);
 
-router.route(`/:jobId`).get(getJob).patch(verify, updateJob);
+router.route(`/:jobId`).get(getJob).patch(verify, updateJob).delete(deleteJob);
 
 export default router;

@@ -116,3 +116,30 @@ export const updateJob = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deleteJob = async (req, res, next) => {
+  try {
+    let updatedJob;
+    try {
+      await prisma.job.delete({
+        where: {
+          id: Number(req.params.jobId),
+          employerId: Number(req.user.id),
+        },
+      });
+    } catch (error) {
+      return next(
+        new Error(
+          `Data is not valid or you are trying to update other persons job post`
+        )
+      );
+    }
+    // Send response
+    res.status(200).json({
+      status: `success`,
+      job: updatedJob,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
