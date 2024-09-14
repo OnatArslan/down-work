@@ -11,4 +11,5 @@ model Contract {
 
     clientId Int
     client User @relation("clientContracts",fields: [clientId], references: [id])
+    @@map("contract")
 }

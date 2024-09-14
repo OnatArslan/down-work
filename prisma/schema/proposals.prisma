@@ -9,4 +9,5 @@ model Proposal {
     freelancerId Int
     jobId Int
     job Job @relation(fields: [jobId], references: [id])
+    @@map("proposal")
 }

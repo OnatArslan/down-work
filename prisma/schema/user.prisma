@@ -16,6 +16,8 @@ model User {
   freelancedContracts Contract[] @relation("freelancedContracts")
 
   clientContracts Contract[] @relation("clientContracts")
+
+  reviews Review[]
   @@index([email])
   @@map("user")
 }

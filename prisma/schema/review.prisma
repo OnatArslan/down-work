@@ -1,0 +1,17 @@
+
+model Review {
+    id Int @id @default(autoincrement())
+    text String? @db.Text
+    rating Int
+    reviewerId Int
+    reviewerUser User @relation("givenReviews",fields: [reviewerId], references: [id])
+
+    reviewedId Int
+    reviewedUser User @relation("receivedReviews",fields: [reviewedId],references: [id])
+
+    jobId Int
+    job Job @relation(fields: [jobId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
