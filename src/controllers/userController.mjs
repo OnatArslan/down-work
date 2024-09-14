@@ -7,7 +7,20 @@ import bcrypt from 'bcrypt';
 const getAllUsers = async (req, res, next) => {
   try {
     // Send the response
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      omit: {
+        password: true,
+        passwordChangedAt: true,
+        role: true,
+      },
+      include: {
+        _count: {
+          select: {
+            createdJobs: true,
+          },
+        },
+      },
+    });
     res.status(200).json(users);
   } catch (error) {
     // Handle any errors
