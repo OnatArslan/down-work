@@ -9,7 +9,7 @@ import { verify } from '../controllers/authController.mjs';
 
 const router = express.Router();
 
-router.route(`/`).get(verify, getAllJobs).post(createJob);
+router.route(`/`).get(getAllJobs).post(verify, createJob);
 
 router.route(`/:jobId`).get(getJob);
 
