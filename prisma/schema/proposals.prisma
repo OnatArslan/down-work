@@ -1,0 +1,10 @@
+
+model Proposal {
+    id          Int         @id @default(autoincrement())
+    freelancer User @relation(fields: [freelancerId],references: [id])
+    freelancerId Int
+    jobId Int
+    job Job @relation(fields: [jobId], references: [id])
+    text String @db.Text
+    price Decimal
+}

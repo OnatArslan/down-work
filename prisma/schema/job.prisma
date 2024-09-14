@@ -10,7 +10,7 @@ model Job {
   // Releatinships
   employerId  Int
   employer    User        @relation(fields: [employerId], references: [id])
-  
+  proposals Proposal[]
   @@map("job")
 }
 

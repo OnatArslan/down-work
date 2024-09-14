@@ -11,7 +11,7 @@ model User {
   role              Role     @default(client)
   // Releatinships
   createdJobs       Job[]
-
+  proposals Proposal[]
   @@index([email])
   @@map("user")
 }
