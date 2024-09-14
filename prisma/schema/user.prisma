@@ -9,15 +9,18 @@ model User {
   updatedAt         DateTime @updatedAt
   passwordChangedAt DateTime @default(now())
   role              Role     @default(client)
-  // Releatinships
+  // Rel between jobs O-M
   createdJobs       Job[]
+  // Rel between proposals
   proposals Proposal[]
-
+  // Rel for freelancers contracts
   freelancedContracts Contract[] @relation("freelancedContracts")
-
+  // Rel for client contracts
   clientContracts Contract[] @relation("clientContracts")
-
-  reviews Review[]
+  // Rel for reviews which comes to freelancer
+  receivedReviews   Review[] @relation("receivedReviews")
+  // Rel for reviews which client gives to freelancers jobs
+  givenReviews      Review[] @relation("givenReviews")
   @@index([email])
   @@map("user")
 }
