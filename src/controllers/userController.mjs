@@ -51,7 +51,6 @@ const createUser = async (req, res, next) => {
 // Define the getUser controller function
 const getUser = async (req, res, next) => {
   try {
-    // Send the response
     res.status(200).json(user);
   } catch (error) {
     // Handle any errors
