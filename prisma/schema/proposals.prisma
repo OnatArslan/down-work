@@ -5,9 +5,16 @@ model Proposal {
     price Decimal
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    status ProposalStatus @default(pending)
     freelancer User @relation(fields: [freelancerId],references: [id])
     freelancerId Int
     jobId Int
     job Job @relation(fields: [jobId], references: [id])
     @@map("proposal")
+}
+
+enum ProposalStatus{
+    pending
+    accepted
+    declined
 }
