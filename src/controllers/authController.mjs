@@ -2,6 +2,7 @@ import prisma from '../db/prisma.mjs';
 import userSchema from '../joi/user.mjs';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import transport from '../utils/mailer.mjs';
 
 export const signUp = async (req, res, next) => {
   try {
@@ -42,6 +43,16 @@ export const signUp = async (req, res, next) => {
       secure: process.env.NODE_ENV === 'production', // Ensures the cookie is sent only over HTTPS in production
       maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days in milliseconds
     });
+
+    // Give a nice welcome email for user
+    const info = await transport.sendMail({
+      from: '"Down Work Co.👻" <downwork@example.com>', // sender address
+      to: `${newUser.email}`, // list of receivers
+      subject: 'Welcome Mail 🌲', // Subject line
+      text: 'Welcome to our app.We are happy to see you❤️', // plain text body
+      html: '<b>Welcome</b>', // html body
+    });
+
     // return response and send user data
     res.status(200).json({
       status: `success`,
