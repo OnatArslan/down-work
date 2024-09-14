@@ -58,14 +58,21 @@ const getJob = async (req, res, next) => {
 // Must change req.user after auth controller
 const createJob = async (req, res, next) => {
   try {
-    const validData = await jobSchema.validateAsync(req.body);
+    const validData = await jobSchema.validateAsync({
+      ...req.body,
+      employerId: req.user.id,
+    });
     if (validData.error) {
       return next(new Error(validData.error));
     }
     const newJob = await prisma.job.create({
-      data: validData,
-      select: {
-        employer: true,
+      data: { ...validData, employerId: req.user.id },
+      include: {
+        employer: {
+          select: {
+            username: true,
+          },
+        },
       },
     });
     res.status(200).json({
