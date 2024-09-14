@@ -12,6 +12,10 @@ model User {
   // Releatinships
   createdJobs       Job[]
   proposals Proposal[]
+
+  freelancedContracts Contract[] @relation("freelancedContracts")
+
+  clientContracts Contract[] @relation("clientContracts")
   @@index([email])
   @@map("user")
 }

@@ -1,0 +1,14 @@
+model Contract {
+    id Int @id @default(autoincrement())
+    totalPrice Decimal
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    jobId Int
+    job Job @relation(fields: [jobId], references: [id])
+
+    freelancerId Int
+    freelancer User @relation("freelancedContracts",fields: [freelancerId], references: [id])
+
+    clientId Int
+    client User @relation("clientContracts",fields: [clientId], references: [id])
+}
