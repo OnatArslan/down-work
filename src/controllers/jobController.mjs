@@ -58,7 +58,6 @@ export const getJob = async (req, res, next) => {
   }
 };
 
-// Must change req.user after auth controller
 export const createJob = async (req, res, next) => {
   try {
     const validData = await jobSchema.validateAsync({
@@ -81,6 +80,37 @@ export const createJob = async (req, res, next) => {
     res.status(200).json({
       status: `success`,
       job: newJob,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateJob = async (req, res, next) => {
+  try {
+    if (req.params.employerId || req.params.id) {
+      return next(new Error(`Can not update employerId or id`));
+    }
+    let updatedJob;
+    try {
+      updatedJob = await prisma.job.update({
+        where: {
+          id: Number(req.params.jobId),
+          employerId: Number(req.user.id),
+        },
+        data: req.body,
+      });
+    } catch (error) {
+      return next(
+        new Error(
+          `Data is not valid or you are trying to update other persons job post`
+        )
+      );
+    }
+
+    res.status(200).json({
+      status: `success`,
+      job: updatedJob,
     });
   } catch (error) {
     next(error);
