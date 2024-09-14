@@ -45,7 +45,7 @@ export const signUp = async (req, res, next) => {
     });
 
     // Give a nice welcome email for user
-    const info = await transport.sendMail({
+    const mail = await transport.sendMail({
       from: '"Down Work Co.👻" <downwork@example.com>', // sender address
       to: `${newUser.email}`, // list of receivers
       subject: 'Welcome Mail 🌲', // Subject line
