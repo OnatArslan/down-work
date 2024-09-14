@@ -119,7 +119,7 @@ export const updateJob = async (req, res, next) => {
 
 export const deleteJob = async (req, res, next) => {
   try {
-    let updatedJob;
+    // If delete record is not done return errror
     try {
       await prisma.job.delete({
         where: {
