@@ -1,0 +1,12 @@
+
+model Message{
+    id Int @id @default(autoincrement())
+
+    senderId Int
+    sender User @relation("sendedMessages",fields: [senderId],references: [id])
+    recieverId Int
+    reciever User @relation("recievedMessages",fields: [recieverId],references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    @@map("message")
+}
