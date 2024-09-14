@@ -107,7 +107,7 @@ export const updateJob = async (req, res, next) => {
         )
       );
     }
-
+    // Send response
     res.status(200).json({
       status: `success`,
       job: updatedJob,
