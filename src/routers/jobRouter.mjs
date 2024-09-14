@@ -13,6 +13,10 @@ const router = express.Router();
 
 router.route(`/`).get(getAllJobs).post(verify, createJob);
 
-router.route(`/:jobId`).get(getJob).patch(verify, updateJob).delete(deleteJob);
+router
+  .route(`/:jobId`)
+  .get(getJob)
+  .patch(verify, updateJob)
+  .delete(verify, deleteJob);
 
 export default router;

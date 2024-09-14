@@ -130,14 +130,14 @@ export const deleteJob = async (req, res, next) => {
     } catch (error) {
       return next(
         new Error(
-          `Data is not valid or you are trying to update other persons job post`
+          `Can not find this job post or you are trying to delete other user's post`
         )
       );
     }
     // Send response
     res.status(200).json({
       status: `success`,
-      job: updatedJob,
+      message: `Job deleted successfully`,
     });
   } catch (error) {
     next(error);
