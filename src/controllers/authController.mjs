@@ -110,42 +110,61 @@ export const signIn = async (req, res, next) => {
 
 export const getMe = async (req, res, next) => {
   try {
-    const profile = await prisma.user.findUnique({
-      where: {
-        id: req.user.id,
-      },
-      omit: {
-        password: true,
-        passwordChangedAt: true,
-      },
-      include: {
-        notifications: {
-          select: {
-            id: true,
-            subject: true,
-            createdAt: true,
+    let profile;
+    if (req.user.role === `client`) {
+      profile = await prisma.user.findUnique({
+        where: {
+          id: req.user.id,
+        },
+        omit: {
+          password: true,
+          passwordChangedAt: true,
+        },
+        include: {
+          notifications: {
+            select: {
+              id: true,
+              subject: true,
+              createdAt: true,
+            },
+          },
+          clientContracts: {},
+          createdJobs: {
+            select: {
+              id: true,
+              title: true,
+              status: true,
+            },
+          },
+          recieveddProposals: {
+            select: {
+              id: true,
+              text: true,
+              price: true,
+              createdAt: true,
+              status: true,
+              job: {
+                select: {
+                  title: true,
+                },
+              },
+              freelancer: {
+                select: {
+                  id: true,
+                  email: true,
+                },
+              },
+            },
           },
         },
-        clientContracts: {},
-        createdJobs: {
-          select: {
-            id: true,
-            title: true,
-            status: true,
-          },
+      });
+    } else if (req.user.role === `freelancer`) {
+      profile = await prisma.user.findUnique({
+        where: {
+          id: req.user.id,
         },
-        recieveddProposals: {
-          select: {
-            id: true,
-            text: true,
-            price: true,
-            createdAt: true,
-            status: true,
-            freelancerId: true,
-          },
-        },
-      },
-    });
+      });
+    }
     res.status(200).json({
       status: `success`,
       data: {
