@@ -119,7 +119,13 @@ export const getMe = async (req, res, next) => {
         passwordChangedAt: true,
       },
       include: {
-        notifications: {},
+        notifications: {
+          select: {
+            id: true,
+            subject: true,
+            createdAt: true,
+          },
+        },
         clientContracts: {},
         createdJobs: {
           select: {
