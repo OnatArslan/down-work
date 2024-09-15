@@ -179,3 +179,16 @@ export const verify = async (req, res, next) => {
     next(error);
   }
 };
+
+export const restrict = async (roles) => {
+  return async function (req, res, next) {
+    try {
+      if (!roles.include(req.user.role)) {
+        return next(new Error(`Only ${roles} can access to this route`));
+      }
+      next();
+    } catch (error) {
+      next(error);
+    }
+  };
+};
