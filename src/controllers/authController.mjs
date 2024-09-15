@@ -6,8 +6,8 @@ import transport from '../utils/mailer.mjs';
 
 export const signUp = async (req, res, next) => {
   try {
-    if (req.body.role) {
-      return next(new Error(`Can not give role to yourself!!`));
+    if (req.body.role === `admin`) {
+      return next(new Error(`Can not give admin role to yourself`));
     }
     // Check given data is valid with userSchema
     const validData = await userSchema.validateAsync(req.body);
