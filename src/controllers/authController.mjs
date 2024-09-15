@@ -120,13 +120,22 @@ export const getMe = async (req, res, next) => {
       },
       include: {
         notifications: {},
-        recievedMessages: {},
         clientContracts: {},
         createdJobs: {
           select: {
             id: true,
             title: true,
             status: true,
+          },
+        },
+        recieveddProposals: {
+          select: {
+            id: true,
+            text: true,
+            price: true,
+            createdAt: true,
+            status: true,
+            freelancerId: true,
           },
         },
       },

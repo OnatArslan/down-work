@@ -32,6 +32,7 @@ export const sendProposal = async (req, res, next) => {
         ...req.body,
         freelancerId: Number(req.user.id),
         jobId: Number(req.params.jobId),
+        clientId: Number(job.employerId),
       },
     });
     // If some reason proposal not created return error
