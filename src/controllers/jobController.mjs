@@ -44,6 +44,7 @@ export const getJob = async (req, res, next) => {
             bio: true,
           },
         },
+        proposals: true,
       },
     });
     if (!job) {
