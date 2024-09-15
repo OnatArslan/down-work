@@ -110,7 +110,7 @@ export const signIn = async (req, res, next) => {
 
 export const getMe = async (req, res, next) => {
   try {
-    res.status.json({
+    res.status(200).json({
       status: `success`,
       data: {},
     });
