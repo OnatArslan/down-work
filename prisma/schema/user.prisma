@@ -31,8 +31,10 @@ model User {
   // Rel for recieved messages
   recievedMessages Message[] @relation("recievedMessages")
 
+  // Rel for notifications
+  notifications Notification[]
    @@index([email])
-  @@map("user")
+   @@map("user")
 }
 
 enum Role {
