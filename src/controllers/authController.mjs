@@ -163,6 +163,35 @@ export const getMe = async (req, res, next) => {
         where: {
           id: req.user.id,
         },
+        omit: {
+          password: true,
+          passwordChangedAt: true,
+        },
+        include: {
+          sendedProposals: {
+            omit: {
+              updatedAt: true,
+              freelancerId: true,
+              clientId: true,
+            },
+            include: {
+              job: {
+                select: {
+                  title: true,
+                },
+              },
+              client: {
+                select: {
+                  username: true,
+                  email: true,
+                },
+              },
+            },
+          },
+          freelancedContracts: {},
+          givenReviews: {},
+          notifications: {},
+        },
       });
     }
     res.status(200).json({
