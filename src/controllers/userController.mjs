@@ -19,6 +19,7 @@ const getAllUsers = async (req, res, next) => {
             createdJobs: true,
           },
         },
+        notifications: true,
       },
     });
     res.status(200).json(users);
