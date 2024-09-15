@@ -110,9 +110,32 @@ export const signIn = async (req, res, next) => {
 
 export const getMe = async (req, res, next) => {
   try {
+    const profile = await prisma.user.findUnique({
+      where: {
+        id: req.user.id,
+      },
+      omit: {
+        password: true,
+        passwordChangedAt: true,
+      },
+      include: {
+        notifications: {},
+        recievedMessages: {},
+        clientContracts: {},
+        createdJobs: {
+          select: {
+            id: true,
+            title: true,
+            status: true,
+          },
+        },
+      },
+    });
     res.status(200).json({
       status: `success`,
-      data: {},
+      data: {
+        profile,
+      },
     });
   } catch (error) {
     next(error);
