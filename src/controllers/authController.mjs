@@ -108,6 +108,17 @@ export const signIn = async (req, res, next) => {
   }
 };
 
+export const getMe = async (req, res, next) => {
+  try {
+    res.status.json({
+      status: `success`,
+      data: {},
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const logOut = async (req, res, next) => {
   try {
     // Clear jwt token from cookies
