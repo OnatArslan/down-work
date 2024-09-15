@@ -7,7 +7,7 @@ import {
   deleteJob,
 } from '../controllers/jobController.mjs';
 
-import { verify } from '../controllers/authController.mjs';
+import { verify, restrict } from '../controllers/authController.mjs';
 import proposalRouter from './proposalRouter.mjs';
 
 const router = express.Router();
@@ -15,7 +15,10 @@ const router = express.Router();
 // Use proposal router for this routes---
 router.use(`/:jobId/proposals`, proposalRouter);
 
-router.route(`/`).get(getAllJobs).post(verify, createJob);
+router
+  .route(`/`)
+  .get(getAllJobs)
+  .post(verify, restrict([`client`]), createJob);
 
 router
   .route(`/:jobId`)
