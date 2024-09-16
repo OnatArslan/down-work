@@ -191,6 +191,7 @@ export const getMe = async (req, res, next) => {
               },
             },
           },
+          // Not yet confirmed
           freelancedContracts: {},
           givenReviews: {},
           notifications: {},
