@@ -194,6 +194,7 @@ export const getMe = async (req, res, next) => {
         },
       });
     }
+    // Send status code with profile data
     res.status(200).json({
       status: `success`,
       data: {
