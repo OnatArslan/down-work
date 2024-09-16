@@ -158,6 +158,7 @@ export const getMe = async (req, res, next) => {
           },
         },
       });
+      // If user's role is freelancer
     } else if (req.user.role === `freelancer`) {
       profile = await prisma.user.findUnique({
         where: {
