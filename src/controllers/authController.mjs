@@ -164,6 +164,7 @@ export const getMe = async (req, res, next) => {
         where: {
           id: req.user.id,
         },
+        // Omit special fields
         omit: {
           password: true,
           passwordChangedAt: true,
