@@ -176,6 +176,7 @@ export const getMe = async (req, res, next) => {
               freelancerId: true,
               clientId: true,
             },
+            // Include sub models
             include: {
               job: {
                 select: {
