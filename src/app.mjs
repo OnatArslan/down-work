@@ -15,6 +15,7 @@ import userRouter from './routers/userRouter.mjs';
 import jobRouter from './routers/jobRouter.mjs';
 import authRouter from './routers/authRouter.mjs';
 import proposalRouter from './routers/proposalRouter.mjs';
+import profileRouter from './routers/profileRouter.mjs';
 // Create app
 const app = express();
 
@@ -49,6 +50,7 @@ app.use(`/users`, userRouter);
 app.use(`/jobs`, jobRouter);
 app.use(`/auth`, authRouter);
 app.use(`/proposals`, proposalRouter);
+app.use(`profile`, profileRouter);
 // Catch-all route for non-existent routes
 app.get(`*`, async (req, res, next) => {
   // const user = await prisma.user.create({});
