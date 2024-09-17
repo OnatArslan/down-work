@@ -78,7 +78,7 @@ export const sendProposal = async (req, res, next) => {
 export const getProposals = async (req, res, next) => {
   try {
     let proposals;
-    // This if block return one jobs proposals
+    // This if block return proposals for one specific job model
     if (req.params.jobId) {
       const job = await prisma.job.findUnique({
         where: { id: Number(req.params.jobId) },
