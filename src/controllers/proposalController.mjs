@@ -102,6 +102,10 @@ export const getProposals = async (req, res, next) => {
             )
           );
         }
+        if (job.proposals.length === 0) {
+          return next(new Error(`Can not find any proposal for your job post`));
+        }
+
         res.status(200).json({
           status: `success`,
           message: `Here all proposals for your job post.`,
