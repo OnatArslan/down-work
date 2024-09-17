@@ -40,7 +40,10 @@ export const getMe = async (req, res, next) => {
         include: {
           _count: {
             select: {
-              sende,
+              sendedProposals: { where: { status: `pending` } },
+              receivedReviews: true,
+              recievedMessages: true,
+              notifications: true,
             },
           },
         },
