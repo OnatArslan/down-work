@@ -216,8 +216,14 @@ export const getProposals = async (req, res, next) => {
 // Answer proposal then send Contract
 export const answerProposal = async (req, res, next) => {
   try {
+    const proposal = await prisma.proposal.findMany({
+      where: {
+        clientId: Number(req.user.id),
+      },
+    });
     res.status(200).json({
       status: `success`,
+      proposal,
     });
   } catch (error) {
     next(error);

@@ -3,6 +3,7 @@ import { verify, restrict } from '../controllers/authController.mjs';
 import {
   sendProposal,
   getProposals,
+  answerProposal,
 } from '../controllers/proposalController.mjs';
 const router = express.Router({ mergeParams: true });
 
@@ -14,4 +15,6 @@ router
   .route(`/`)
   .get(verify, restrict([`freelancer`, `client`]))
   .get(getProposals);
+
+router.route(`/:proposalId`).post(verify, answerProposal);
 export default router;
