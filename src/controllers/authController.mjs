@@ -116,12 +116,24 @@ export const getMe = async (req, res, next) => {
         where: {
           id: req.user.id,
         },
+        omit: {
+          password: true,
+          passwordChangedAt: true,
+          updatedAt: true,
+          createdAt: true,
+        },
       });
       // If user's role is freelancer
     } else if (req.user.role === `freelancer`) {
       profile = await prisma.user.findUnique({
         where: {
           id: req.user.id,
+        },
+        omit: {
+          password: true,
+          passwordChangedAt: true,
+          updatedAt: true,
+          createdAt: true,
         },
       });
     }
