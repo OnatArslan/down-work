@@ -77,7 +77,6 @@ export const sendProposal = async (req, res, next) => {
 
 export const getProposals = async (req, res, next) => {
   try {
-    let proposals;
     // This if block return proposals for one specific job model
     if (req.params.jobId) {
       const job = await prisma.job.findUnique({
@@ -90,6 +89,7 @@ export const getProposals = async (req, res, next) => {
           },
         },
       });
+      // If job can not be found return error
       if (!job) {
         return next(new Error(`Can not find any job post with given ID`));
       }
@@ -110,6 +110,59 @@ export const getProposals = async (req, res, next) => {
           status: `success`,
           message: `Here all proposals for your job post.`,
           proposals: job.proposals,
+        });
+        // Else block for freelancer role
+      } else if (req.user.role === `freelancer`) {
+        const proposal = await prisma.proposal.findFirst({
+          where: {
+            freelancerId: Number(req.user.id),
+            jobId: Number(req.params.jobId),
+          },
+        });
+        if (!proposal) {
+          return next(
+            new Error(
+              `Don't have a proposal for this job.For send proposal please send POST request to /job/:jobId/proposals `
+            )
+          );
+        }
+        res.status(200).json({
+          status: `success`,
+          message: `Here is your proposal`,
+          proposal,
+        });
+      }
+      // If req.params do not have jobId get all proposals
+    } else {
+      let proposals;
+      if (req.user.role === `client`) {
+        proposals = await prisma.proposal.findMany({
+          where: {
+            clientId: Number(req.user.id),
+          },
+          omit: {
+            freelancerId: true,
+            clientId: true,
+            jobId: true,
+            updatedAt: true,
+          },
+          include: {
+            job: {
+              select: {
+                id: true,
+                title: true,
+                status: true,
+              },
+            },
+            freelancer: {
+              select: { username: true, email: true },
+            },
+          },
+        });
+        res.status(200).json({
+          status: `success`,
+          message: `Here is your all proposals`,
+          proposals,
         });
       }
     }
