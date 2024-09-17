@@ -24,6 +24,7 @@ export const sendProposal = async (req, res, next) => {
     if (!job) {
       return next(new Error(`Can not find any open job for your proposal`));
     }
+    // Check if freelancer already propose for this job
     const isProposalExist = await prisma.proposal.findFirst({
       where: {
         freelancerId: Number(req.user.id),
