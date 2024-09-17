@@ -116,85 +116,12 @@ export const getMe = async (req, res, next) => {
         where: {
           id: req.user.id,
         },
-        omit: {
-          password: true,
-          passwordChangedAt: true,
-        },
-        include: {
-          notifications: {
-            select: {
-              id: true,
-              subject: true,
-              createdAt: true,
-            },
-          },
-          clientContracts: {},
-          createdJobs: {
-            select: {
-              id: true,
-              title: true,
-              status: true,
-            },
-          },
-          recieveddProposals: {
-            select: {
-              id: true,
-              text: true,
-              price: true,
-              createdAt: true,
-              status: true,
-              job: {
-                select: {
-                  title: true,
-                },
-              },
-              freelancer: {
-                select: {
-                  id: true,
-                  email: true,
-                },
-              },
-            },
-          },
-        },
       });
       // If user's role is freelancer
     } else if (req.user.role === `freelancer`) {
       profile = await prisma.user.findUnique({
         where: {
           id: req.user.id,
-        },
-        // Omit special fields
-        omit: {
-          password: true,
-          passwordChangedAt: true,
-        },
-        include: {
-          sendedProposals: {
-            omit: {
-              updatedAt: true,
-              freelancerId: true,
-              clientId: true,
-            },
-            // Include sub models
-            include: {
-              job: {
-                select: {
-                  title: true,
-                },
-              },
-              client: {
-                select: {
-                  username: true,
-                  email: true,
-                },
-              },
-            },
-          },
-          // Not yet confirmed
-          freelancedContracts: {},
-          givenReviews: {},
-          notifications: {},
         },
       });
     }
