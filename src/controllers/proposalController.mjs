@@ -3,7 +3,9 @@ import prisma from '../db/prisma.mjs';
 export const sendProposal = async (req, res, next) => {
   try {
     const { text, price } = req.body;
-    // Try to get job with given ID and make sure job is open
+    if (!req.params.jobId) {
+      return next(new Error(`job ID missing`));
+    } // Try to get job with given ID and make sure job is open
     const job = await prisma.job.findUnique({
       where: {
         id: Number(req.params.jobId),
