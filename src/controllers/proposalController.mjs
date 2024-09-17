@@ -24,9 +24,19 @@ export const sendProposal = async (req, res, next) => {
     if (!job) {
       return next(new Error(`Can not find any open job for your proposal`));
     }
-    // If job is current users post return error
-    if (job.employerId === req.user.id) {
-      return next(new Error(`Can not propose your own job post`));
+    const isProposalExist = await prisma.proposal.findFirst({
+      where: {
+        freelancerId: Number(req.user.id),
+        jobId: Number(req.params.jobId),
+        clientId: Number(job.employerId),
+      },
+    });
+    if (isProposalExist) {
+      return next(
+        new Error(
+          `You already have proposal for this post.Please wait to clients message`
+        )
+      );
     }
     // Create proposal with given body data
     const newProposal = await prisma.proposal.create({
@@ -72,7 +82,7 @@ export const getProposals = async (req, res, next) => {
       const job = await prisma.job.findUnique({
         where: { id: Number(req.params.jobId) },
         include: {
-          proposals: true,
+          proposals: {},
         },
       });
       if (!job) {
