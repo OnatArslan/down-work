@@ -66,6 +66,22 @@ export const sendProposal = async (req, res, next) => {
 
 export const getProposals = async (req, res, next) => {
   try {
+    let proposals;
+    // This if block return one jobs proposals
+    if (req.params.jobId) {
+      const job = await prisma.job.findUnique({
+        where: { id: Number(req.params.jobId) },
+      });
+      if (req.user.role === `client`) {
+        if (req.user.id !== job.employerId) {
+          return next(
+            new Error(
+              `This post not belong to you.You can not get proposals which not belong to you`
+            )
+          );
+        }
+      }
+    }
     res.status(200).json({
       status: `success`,
     });
