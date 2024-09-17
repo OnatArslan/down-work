@@ -20,7 +20,7 @@ export const sendProposal = async (req, res, next) => {
     });
     // If job is not find return error
     if (!job) {
-      return next(new Error(`Can not any open job for your proposal`));
+      return next(new Error(`Can not find any open job for your proposal`));
     }
     // If job is current users post return error
     if (job.employerId === req.user.id) {
@@ -64,6 +64,9 @@ export const sendProposal = async (req, res, next) => {
 
 export const getProposals = async (req, res, next) => {
   try {
+    res.status(200).json({
+      status: `success`,
+    });
   } catch (error) {
     next(error);
   }
