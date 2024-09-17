@@ -216,5 +216,7 @@ export const getProposals = async (req, res, next) => {
 // Answer proposal then send Contract
 export const answerProposal = async (req, res, next) => {
   try {
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 };
