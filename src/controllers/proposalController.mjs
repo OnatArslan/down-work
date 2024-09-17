@@ -72,7 +72,11 @@ export const getProposals = async (req, res, next) => {
       const job = await prisma.job.findUnique({
         where: { id: Number(req.params.jobId) },
       });
+      if (!job) {
+        return next(new Error(`Can not find any job post with given ID`));
+      }
       if (req.user.role === `client`) {
+        // If current user is not job's employer
         if (req.user.id !== job.employerId) {
           return next(
             new Error(
@@ -80,11 +84,13 @@ export const getProposals = async (req, res, next) => {
             )
           );
         }
+        res.status(200).json({
+          status: `success`,
+          proposals,
+          job,
+        });
       }
     }
-    res.status(200).json({
-      status: `success`,
-    });
   } catch (error) {
     next(error);
   }
