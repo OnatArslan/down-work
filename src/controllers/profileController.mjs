@@ -12,7 +12,6 @@ export const getMe = async (req, res, next) => {
           password: true,
           passwordChangedAt: true,
           updatedAt: true,
-          createdAt: true,
         },
       });
       // If user's role is freelancer
@@ -25,7 +24,6 @@ export const getMe = async (req, res, next) => {
           password: true,
           passwordChangedAt: true,
           updatedAt: true,
-          createdAt: true,
         },
       });
     }
