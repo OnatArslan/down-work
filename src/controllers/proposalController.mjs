@@ -159,9 +159,51 @@ export const getProposals = async (req, res, next) => {
             },
           },
         });
+        if (!proposals) {
+          return next(new Error(`Can not find any proposal for your jobs`));
+        }
         res.status(200).json({
           status: `success`,
-          message: `Here is your all proposals`,
+          message: `Here is your all proposals for your jobs`,
+          proposals,
+        });
+      } else if (req.user.role === `freelancer`) {
+        proposals = await prisma.proposal.findMany({
+          where: {
+            freelancerId: Number(req.user.id),
+          },
+          omit: {
+            updatedAt: true,
+            freelancerId: true,
+            jobId: true,
+            clientId: true,
+          },
+          include: {
+            job: {
+              omit: {
+                description: true,
+                paymentType: true,
+                createdAt: true,
+                updatedAt: true,
+                employerId: true,
+              },
+              include: {
+                employer: {
+                  select: {
+                    username: true,
+                    email: true,
+                  },
+                },
+              },
+            },
+          },
+        });
+        if (proposals.length === 0) {
+          return next(new Error(`Can not find any proposed jobs`));
+        }
+        res.status(200).json({
+          status: `success`,
+          message: `Here is your all proposed jobs`,
           proposals,
         });
       }
