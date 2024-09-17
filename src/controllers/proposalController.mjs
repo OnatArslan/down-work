@@ -212,3 +212,5 @@ export const getProposals = async (req, res, next) => {
     next(error);
   }
 };
+
+// Answer proposal then send Contract
