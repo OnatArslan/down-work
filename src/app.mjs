@@ -14,6 +14,7 @@ import { rateLimit } from 'express-rate-limit';
 import userRouter from './routers/userRouter.mjs';
 import jobRouter from './routers/jobRouter.mjs';
 import authRouter from './routers/authRouter.mjs';
+import proposalRouter from './routers/proposalRouter.mjs';
 // Create app
 const app = express();
 
@@ -47,6 +48,7 @@ app.use(limiter);
 app.use(`/users`, userRouter);
 app.use(`/jobs`, jobRouter);
 app.use(`/auth`, authRouter);
+app.use(`/proposals`, proposalRouter);
 // Catch-all route for non-existent routes
 app.get(`*`, async (req, res, next) => {
   // const user = await prisma.user.create({});

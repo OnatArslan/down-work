@@ -61,3 +61,10 @@ export const sendProposal = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getProposals = async (req, res, next) => {
+  try {
+  } catch (error) {
+    next(error);
+  }
+};
