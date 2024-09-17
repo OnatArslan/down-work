@@ -13,6 +13,18 @@ export const getMe = async (req, res, next) => {
           passwordChangedAt: true,
           updatedAt: true,
         },
+        include: {
+          _count: {
+            select: {
+              createdJobs: true,
+              recieveddProposals: {
+                where: { status: `pending` },
+              },
+              recievedMessages: true,
+              notifications: true,
+            },
+          },
+        },
       });
       // If user's role is freelancer
     } else if (req.user.role === `freelancer`) {
@@ -24,6 +36,13 @@ export const getMe = async (req, res, next) => {
           password: true,
           passwordChangedAt: true,
           updatedAt: true,
+        },
+        include: {
+          _count: {
+            select: {
+              sende,
+            },
+          },
         },
       });
     }
