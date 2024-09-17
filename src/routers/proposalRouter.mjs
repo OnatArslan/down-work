@@ -6,6 +6,7 @@ import {
 } from '../controllers/proposalController.mjs';
 const router = express.Router({ mergeParams: true });
 
+// This route is for jobs/jobId/proposals route can not use like /proposals
 router.route(`/`).post(verify, restrict([`freelancer`]), sendProposal);
 
 // This is allowed for job/:jobId/proposals and /proposals
