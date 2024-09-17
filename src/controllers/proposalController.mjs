@@ -83,7 +83,11 @@ export const getProposals = async (req, res, next) => {
       const job = await prisma.job.findUnique({
         where: { id: Number(req.params.jobId) },
         include: {
-          proposals: {},
+          proposals: {
+            orderBy: {
+              createdAt: `desc`,
+            },
+          },
         },
       });
       if (!job) {
