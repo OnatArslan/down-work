@@ -227,6 +227,19 @@ export const answerProposal = async (req, res, next) => {
       data: {
         status: `accepted`,
       },
+      include: {
+        client: {
+          select: {
+            username: true,
+            email: true,
+          },
+        },
+        job: {
+          select: {
+            title: true,
+          },
+        },
+      },
     });
     // Create contract for this proposal
     const contract = await prisma.contract.create({
@@ -237,10 +250,19 @@ export const answerProposal = async (req, res, next) => {
         jobId: Number(proposal.jobId),
       },
     });
+    // Send notification to freelancer
+    const notification = await prisma.notification.create({
+      data: {
+        subject: `New contract`,
+        text: `Hey ${proposal.client.username} has accept your proposal for ${proposal.job.title} post.You can message him after`,
+        receiverId: Number(proposal.freelancerId),
+      },
+    });
     res.status(200).json({
       status: `success`,
       proposal,
       contract,
+      notification,
     });
   } catch (error) {
     next(error);
