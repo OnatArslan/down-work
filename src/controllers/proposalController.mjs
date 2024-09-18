@@ -90,6 +90,7 @@ export const getProposals = async (req, res, next) => {
           },
         },
       });
+      // --
       // If job can not be found return error
       if (!job) {
         return next(new Error(`Can not find any job post with given ID`));
