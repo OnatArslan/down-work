@@ -1,3 +1,4 @@
+import { Decimal } from '@prisma/client/runtime/library';
 import prisma from '../db/prisma.mjs';
 
 export const sendProposal = async (req, res, next) => {
@@ -216,6 +217,7 @@ export const getProposals = async (req, res, next) => {
 // Answer proposal then send Contract
 export const answerProposal = async (req, res, next) => {
   try {
+    // Find and update proposal
     const proposal = await prisma.proposal.update({
       where: {
         id: Number(req.params.proposalId),
@@ -226,10 +228,19 @@ export const answerProposal = async (req, res, next) => {
         status: `accepted`,
       },
     });
-
+    // Create contract for this proposal
+    const contract = await prisma.contract.create({
+      data: {
+        totalPrice: Number(proposal.price),
+        freelancerId: Number(proposal.freelancerId),
+        clientId: Number(req.user.id),
+        jobId: Number(proposal.jobId),
+      },
+    });
     res.status(200).json({
       status: `success`,
       proposal,
+      contract,
     });
   } catch (error) {
     next(error);
