@@ -216,16 +216,17 @@ export const getProposals = async (req, res, next) => {
 // Answer proposal then send Contract
 export const answerProposal = async (req, res, next) => {
   try {
-    const proposal = await prisma.proposal.findFirst({
+    const proposal = await prisma.proposal.update({
       where: {
         id: Number(req.params.proposalId),
         clientId: Number(req.user.id),
         status: `pending`,
       },
+      data: {
+        status: `accepted`,
+      },
     });
-    if (!proposal) {
-      return next(new Error(`Can not find any pending proposal with this ID`));
-    }
+
     res.status(200).json({
       status: `success`,
       proposal,
