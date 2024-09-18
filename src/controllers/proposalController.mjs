@@ -215,7 +215,61 @@ export const getProposals = async (req, res, next) => {
 };
 
 // Answer proposal then send Contract
-export const answerProposal = async (req, res, next) => {
+export const acceptProposal = async (req, res, next) => {
+  try {
+    // Find and update proposal
+    const proposal = await prisma.proposal.update({
+      where: {
+        id: Number(req.params.proposalId),
+        clientId: Number(req.user.id),
+        status: `pending`,
+      },
+      data: {
+        status: `accepted`,
+      },
+      include: {
+        client: {
+          select: {
+            username: true,
+            email: true,
+          },
+        },
+        job: {
+          select: {
+            title: true,
+          },
+        },
+      },
+    });
+    // Create contract for this proposal
+    const contract = await prisma.contract.create({
+      data: {
+        totalPrice: Number(proposal.price),
+        freelancerId: Number(proposal.freelancerId),
+        clientId: Number(req.user.id),
+        jobId: Number(proposal.jobId),
+      },
+    });
+    // Send notification to freelancer
+    const notification = await prisma.notification.create({
+      data: {
+        subject: `New contract`,
+        text: `Hey ${proposal.client.username} has accept your proposal for ${proposal.job.title} post.You can message him after`,
+        receiverId: Number(proposal.freelancerId),
+      },
+    });
+    res.status(200).json({
+      status: `success`,
+      proposal,
+      contract,
+      notification,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const declineProposal = async (req, res, next) => {
   try {
     // Find and update proposal
     const proposal = await prisma.proposal.update({

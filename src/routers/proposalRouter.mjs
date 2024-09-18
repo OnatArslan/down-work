@@ -3,7 +3,8 @@ import { verify, restrict } from '../controllers/authController.mjs';
 import {
   sendProposal,
   getProposals,
-  answerProposal,
+  acceptProposal,
+  declineProposal,
 } from '../controllers/proposalController.mjs';
 const router = express.Router({ mergeParams: true });
 
@@ -18,5 +19,9 @@ router
 
 router
   .route(`/:proposalId/accept`)
-  .post(verify, restrict([`client`]), answerProposal);
+  .post(verify, restrict([`client`]), acceptProposal);
+
+router
+  .route(`/:proposalId/decline`)
+  .post(verify, restrict([`client`]), declineProposal);
 export default router;
