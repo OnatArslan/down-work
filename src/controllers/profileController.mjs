@@ -14,6 +14,12 @@ export const getMe = async (req, res, next) => {
           updatedAt: true,
         },
         include: {
+          notifications: {
+            select: {
+              subject: true,
+              text: true,
+            },
+          },
           _count: {
             select: {
               createdJobs: true,
@@ -38,6 +44,13 @@ export const getMe = async (req, res, next) => {
           updatedAt: true,
         },
         include: {
+          notifications: {
+            select: {
+              subject: true,
+              text: true,
+              createdAt: true,
+            },
+          },
           _count: {
             select: {
               sendedProposals: { where: { status: `pending` } },

@@ -279,15 +279,9 @@ export const declineProposal = async (req, res, next) => {
         status: `pending`,
       },
       data: {
-        status: `accepted`,
+        status: `declined`,
       },
       include: {
-        client: {
-          select: {
-            username: true,
-            email: true,
-          },
-        },
         job: {
           select: {
             title: true,
@@ -295,27 +289,17 @@ export const declineProposal = async (req, res, next) => {
         },
       },
     });
-    // Create contract for this proposal
-    const contract = await prisma.contract.create({
-      data: {
-        totalPrice: Number(proposal.price),
-        freelancerId: Number(proposal.freelancerId),
-        clientId: Number(req.user.id),
-        jobId: Number(proposal.jobId),
-      },
-    });
     // Send notification to freelancer
     const notification = await prisma.notification.create({
       data: {
-        subject: `New contract`,
-        text: `Hey ${proposal.client.username} has accept your proposal for ${proposal.job.title} post.You can message him after`,
+        subject: `Declined proposal`,
+        text: `Hey your proposal for ${proposal.job.title} has been declined`,
         receiverId: Number(proposal.freelancerId),
       },
     });
     res.status(200).json({
       status: `success`,
       proposal,
-      contract,
       notification,
     });
   } catch (error) {
