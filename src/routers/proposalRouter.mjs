@@ -16,5 +16,7 @@ router
   .get(verify, restrict([`freelancer`, `client`]))
   .get(getProposals);
 
-router.route(`/:proposalId`).post(verify, answerProposal);
+router
+  .route(`/:proposalId/accept`)
+  .post(verify, restrict([`client`]), answerProposal);
 export default router;
