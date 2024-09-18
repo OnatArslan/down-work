@@ -11,5 +11,7 @@ model Contract {
 
     clientId Int
     client User @relation("clientContracts",fields: [clientId], references: [id])
+
+    messages Message[]
     @@map("contract")
 }
