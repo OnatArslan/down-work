@@ -226,6 +226,11 @@ export const acceptProposal = async (req, res, next) => {
       },
       data: {
         status: `accepted`,
+        job: {
+          update: {
+            status: `progress`,
+          },
+        },
       },
       include: {
         client: {
@@ -263,6 +268,7 @@ export const acceptProposal = async (req, res, next) => {
       proposal,
       contract,
       notification,
+      job: proposal.job,
     });
   } catch (error) {
     next(error);
