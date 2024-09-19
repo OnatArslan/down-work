@@ -113,7 +113,7 @@ export const getProposals = async (req, res, next) => {
           message: `Here all proposals for your job post.`,
           proposals: job.proposals,
         });
-        // Else block for freelancer role
+        // Else block for freelancer role ---
       } else if (req.user.role === `freelancer`) {
         const proposal = await prisma.proposal.findFirst({
           where: {
