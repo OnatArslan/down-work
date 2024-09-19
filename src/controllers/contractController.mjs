@@ -8,11 +8,25 @@ export const getAllContracts = async (req, res, next) => {
         where: {
           clientId: Number(req.user.id),
         },
+        omit: {
+          updatedAt: true,
+          clientId: true,
+          jobId: true,
+          freelancerId: true,
+        },
         include: {
           freelancer: {
             select: {
+              id: true,
               username: true,
               email: true,
+            },
+          },
+          job: {
+            select: {
+              id: true,
+              title: true,
+              status: true,
             },
           },
         },
@@ -21,6 +35,28 @@ export const getAllContracts = async (req, res, next) => {
       contracts = await prisma.contract.findMany({
         where: {
           freelancerId: Number(req.user.id),
+        },
+        omit: {
+          updatedAt: true,
+          clientId: true,
+          jobId: true,
+          freelancerId: true,
+        },
+        include: {
+          client: {
+            select: {
+              id: true,
+              username: true,
+              email: true,
+            },
+          },
+          job: {
+            select: {
+              id: true,
+              title: true,
+              status: true,
+            },
+          },
         },
       });
     }
