@@ -22,7 +22,7 @@ export const getAllJobs = async (req, res, next) => {
   }
 };
 
-// Function to get a job by ID
+// Function to get a job by ID field
 export const getJob = async (req, res, next) => {
   try {
     if (!req.params.jobId) {
