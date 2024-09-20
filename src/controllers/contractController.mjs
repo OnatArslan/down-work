@@ -50,6 +50,7 @@ export const getAllContracts = async (req, res, next) => {
               email: true,
             },
           },
+          // Job field
           job: {
             select: {
               id: true,
