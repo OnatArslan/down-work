@@ -32,6 +32,7 @@ export const getAllContracts = async (req, res, next) => {
           },
         },
       });
+      // Also modular this place
     } else if (req.user.role === `freelancer`) {
       contracts = await prisma.contract.findMany({
         where: {
