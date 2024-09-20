@@ -3,6 +3,7 @@ import prisma from '../db/prisma.mjs';
 export const getAllContracts = async (req, res, next) => {
   try {
     let contracts;
+    // Write moduler code for each user role
     if (req.user.role === `client`) {
       contracts = await prisma.contract.findMany({
         where: {
