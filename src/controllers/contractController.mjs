@@ -61,6 +61,7 @@ export const getAllContracts = async (req, res, next) => {
         },
       });
     }
+    // Send response
     res.status(200).json({
       status: `success`,
       message: `Here all contracts belongs to you`,
