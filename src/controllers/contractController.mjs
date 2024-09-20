@@ -38,6 +38,7 @@ export const getAllContracts = async (req, res, next) => {
         where: {
           freelancerId: Number(req.user.id),
         },
+        // Omit special fields
         omit: {
           updatedAt: true,
           clientId: true,
