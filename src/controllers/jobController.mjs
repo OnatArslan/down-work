@@ -7,9 +7,17 @@ export const getAllJobs = async (req, res, next) => {
       include: {
         employer: {
           select: {
+            id: true,
             username: true,
           },
         },
+      },
+      omit: {
+        updatedAt: true,
+        employerId: true,
+      },
+      orderBy: {
+        title: `asc`,
       },
     });
     if (jobs.length === 0) {
