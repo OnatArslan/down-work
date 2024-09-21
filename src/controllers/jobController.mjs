@@ -46,13 +46,13 @@ export const getJob = async (req, res, next) => {
       },
       omit: {
         employerId: true,
+        updatedAt: true,
       },
       include: {
         employer: {
           select: {
             username: true,
             email: true,
-            bio: true,
           },
         },
         proposals: true,
