@@ -74,3 +74,10 @@ export const getAllContracts = async (req, res, next) => {
     next(error);
   }
 };
+
+export const cancelContract = async (req, res, next) => {
+  try {
+  } catch (error) {
+    next(error);
+  }
+};
