@@ -102,7 +102,7 @@ export const createJob = async (req, res, next) => {
 
 export const updateJob = async (req, res, next) => {
   try {
-    if (req.params.employerId || req.params.id) {
+    if (req.body.employerId || req.body.id) {
       return next(new Error(`Can not update employerId or id`));
     }
     let updatedJob;
@@ -111,6 +111,7 @@ export const updateJob = async (req, res, next) => {
         where: {
           id: Number(req.params.jobId),
           employerId: Number(req.user.id),
+          status: `open`,
         },
         data: req.body,
       });
