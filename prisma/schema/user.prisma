@@ -33,6 +33,10 @@ model User {
 
   // Rel for notifications
   notifications Notification[]
+
+  // Rel for follows
+  followedBy Follows[] @relation("followedBy")
+  following  Follows[] @relation("following")
    @@index([email])
    @@map("user")
 }
