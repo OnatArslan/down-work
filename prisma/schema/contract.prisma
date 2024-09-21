@@ -7,10 +7,10 @@ model Contract {
     job Job @relation(fields: [jobId], references: [id])
     status ContractStatus @default(active)
     freelancerId Int
-    freelancer User @relation("freelancedContracts",fields: [freelancerId], references: [id])
+    freelancer User @relation("freelancedContracts",fields: [freelancerId], references: [id], onDelete: Cascade)
 
     clientId Int
-    client User @relation("clientContracts",fields: [clientId], references: [id])
+    client User @relation("clientContracts",fields: [clientId], references: [id], onDelete: Cascade)
 
     messages Message[]
     @@map("contract")

@@ -9,7 +9,7 @@ model Job {
   updatedAt DateTime @updatedAt
   // Releatinships
   employerId  Int
-  employer    User        @relation(fields: [employerId], references: [id])
+  employer    User        @relation(fields: [employerId], references: [id], onDelete: Cascade)
 
   proposals Proposal[]
 

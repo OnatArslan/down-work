@@ -4,7 +4,7 @@ model Notification{
     subject String
     text String
     receiverId Int
-    receiver User @relation(fields: [receiverId], references: [id])
+    receiver User @relation(fields: [receiverId], references: [id], onDelete: Cascade)
 
     createdAt         DateTime @default(now())
     updatedAt         DateTime @updatedAt
