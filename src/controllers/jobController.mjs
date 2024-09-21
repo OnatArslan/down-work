@@ -12,6 +12,9 @@ export const getAllJobs = async (req, res, next) => {
         },
       },
     });
+    if (jobs.length === 0) {
+      return next(new Error(`Can not find any job on server`));
+    }
     // Return response with 200 code
     res.status(200).json({
       status: `success`,
