@@ -4,6 +4,13 @@ model Follows {
   followedBy   User @relation("followedBy", fields: [followedById], references: [id])
   followingId  Int
   following    User @relation("following", fields: [followingId], references: [id])
+  status FollowStatus @default(pending) 
   @@id([followingId, followedById])
   @@map("follows")
+}
+
+enum FollowStatus {
+  pending
+  accepted
+  declined
 }
