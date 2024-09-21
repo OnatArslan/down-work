@@ -61,7 +61,7 @@ export const getJob = async (req, res, next) => {
       },
     });
     if (!job) {
-      return next(new Error(`Can not find any job with given ID`));
+      return next(new Error(`Can not find any open job with given ID`));
     }
     res.status(200).json({
       status: `success`,
