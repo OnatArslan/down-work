@@ -1,8 +1,8 @@
 
 model Follows {
-  followedBy   User @relation("followedBy", fields: [followedById], references: [id])
   followedById Int
-  following    User @relation("following", fields: [followingId], references: [id])
+  followedBy   User @relation("followedBy", fields: [followedById], references: [id])
   followingId  Int
+  following    User @relation("following", fields: [followingId], references: [id])
   @@id([followingId, followedById])
 }
