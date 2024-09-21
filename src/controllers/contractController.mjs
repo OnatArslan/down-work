@@ -77,8 +77,20 @@ export const getAllContracts = async (req, res, next) => {
 
 export const cancelContract = async (req, res, next) => {
   try {
+    let contract;
+    if (req.user.role === `client`) {
+      contract = await prisma.contract.findFirst({
+        where: {
+          id: Number(req.params.contractId),
+          clientId: Number(req.user.id),
+        },
+      });
+      if (!contract)
+        return next(new Error(`Don't have any contract with given ID`));
+    }
     res.status(200).json({
       status: `success`,
+      contract,
     });
   } catch (error) {
     next(error);
