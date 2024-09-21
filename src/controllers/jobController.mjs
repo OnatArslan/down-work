@@ -36,13 +36,11 @@ export const getAllJobs = async (req, res, next) => {
 // Function to get a job by ID field
 export const getJob = async (req, res, next) => {
   try {
-    if (!req.params.jobId) {
-      return next(new Error(`Must enter a job ID`));
-    }
-    const job = await prisma.job.findUniqueOrThrow({
+    const job = await prisma.job.findUnique({
       where: {
         // Use Number because this is an integer field but req.params.jobId is string
         id: Number(req.params.jobId),
+        status: `open`,
       },
       omit: {
         employerId: true,
@@ -55,7 +53,11 @@ export const getJob = async (req, res, next) => {
             email: true,
           },
         },
-        proposals: true,
+        _count: {
+          select: {
+            proposals: true,
+          },
+        },
       },
     });
     if (!job) {
