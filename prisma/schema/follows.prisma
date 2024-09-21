@@ -5,4 +5,5 @@ model Follows {
   followingId  Int
   following    User @relation("following", fields: [followingId], references: [id])
   @@id([followingId, followedById])
+  @@map("follows")
 }
