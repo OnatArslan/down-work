@@ -78,19 +78,47 @@ export const getAllContracts = async (req, res, next) => {
 export const cancelContract = async (req, res, next) => {
   try {
     let contract;
+    let notification;
     if (req.user.role === `client`) {
-      contract = await prisma.contract.findFirst({
-        where: {
-          id: Number(req.params.contractId),
-          clientId: Number(req.user.id),
+      try {
+        contract = await prisma.contract.update({
+          where: {
+            id: Number(req.params.contractId),
+            clientId: Number(req.user.id),
+            status: `active`,
+          },
+          data: {
+            status: `cancelled`,
+          },
+          include: {
+            freelancer: {
+              select: {
+                id: true,
+                email: true,
+              },
+            },
+            job: {
+              select: {
+                title: true,
+              },
+            },
+          },
+        });
+      } catch (error) {
+        return next(new Error(`Can not find active contract`));
+      }
+      notification = await prisma.notification.create({
+        data: {
+          receiverId: Number(contract.freelancer.id),
+          subject: `Cancelled contract`,
+          text: `Hey your contract for ${contract.job.title} cancelled.If you have problem contact with us at example@support.com`,
         },
       });
-      if (!contract)
-        return next(new Error(`Don't have any contract with given ID`));
     }
     res.status(200).json({
       status: `success`,
       contract,
+      notification,
     });
   } catch (error) {
     next(error);
