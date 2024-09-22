@@ -81,6 +81,7 @@ export const cancelContract = async (req, res, next) => {
     let notification;
     if (req.user.role === `client`) {
       try {
+        // Try update contract
         contract = await prisma.contract.update({
           where: {
             id: Number(req.params.contractId),
