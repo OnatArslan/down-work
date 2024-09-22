@@ -163,6 +163,7 @@ export const getProposals = async (req, res, next) => {
             },
           },
         });
+        // Check if proposal exist
         if (!proposals) {
           return next(new Error(`Can not find any proposal for your jobs`));
         }
