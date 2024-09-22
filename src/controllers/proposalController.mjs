@@ -137,6 +137,7 @@ export const getProposals = async (req, res, next) => {
       }
       // If req.params do not have jobId get all proposals
     } else {
+      // let decl. for multi process
       let proposals;
       if (req.user.role === `client`) {
         proposals = await prisma.proposal.findMany({
