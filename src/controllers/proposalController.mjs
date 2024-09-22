@@ -193,6 +193,7 @@ export const getProposals = async (req, res, next) => {
                 updatedAt: true,
                 employerId: true,
               },
+              // Include join tables
               include: {
                 employer: {
                   select: {
