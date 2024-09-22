@@ -185,6 +185,7 @@ export const getProposals = async (req, res, next) => {
           },
           include: {
             job: {
+              // Omit special fields
               omit: {
                 description: true,
                 paymentType: true,
