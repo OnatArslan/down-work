@@ -117,6 +117,7 @@ export const cancelContract = async (req, res, next) => {
         },
       });
     }
+    // Send response with 200 OK
     res.status(200).json({
       status: `success`,
       contract,
