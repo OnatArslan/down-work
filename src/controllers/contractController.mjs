@@ -107,6 +107,7 @@ export const cancelContract = async (req, res, next) => {
         });
       } catch (error) {
         return next(new Error(`Can not find active contract`));
+        // If this will catch an error here
       }
       notification = await prisma.notification.create({
         data: {
