@@ -76,6 +76,7 @@ export const sendProposal = async (req, res, next) => {
   }
 };
 
+// Get one proposal with details
 export const getProposals = async (req, res, next) => {
   try {
     // This if block return proposals for one specific job model
