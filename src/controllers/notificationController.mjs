@@ -11,7 +11,6 @@ export const getNotifications = async (req, res, next) => {
         createdAt: `desc`,
       },
       omit: {
-        id: true,
         updatedAt: true,
         receiverId: true,
       },
@@ -37,7 +36,26 @@ export const deleteNotifications = async (req, res, next) => {
     } catch (error) {
       return next(new Error(`Can not delete notifications`));
     }
+    res.status(200).json({
+      status: `success`,
+      message: `All notifications deleted successfully`,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
+export const deleteNotification = async (req, res, next) => {
+  try {
+    try {
+      await prisma.notification.deleteMany({
+        where: {
+          receiverId: Number(req.user.id),
+        },
+      });
+    } catch (error) {
+      return next(new Error(`Can not delete notifications`));
+    }
     res.status(200).json({
       status: `success`,
       message: `All notifications deleted successfully`,
