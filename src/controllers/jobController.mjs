@@ -17,7 +17,7 @@ export const getAllJobs = async (req, res, next) => {
         employerId: true,
       },
       orderBy: {
-        title: `asc`,
+        id: `desc`,
       },
     });
     if (jobs.length === 0) {
