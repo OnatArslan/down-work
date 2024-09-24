@@ -36,7 +36,7 @@ export const getAllJobs = async (req, res, next) => {
   }
 };
 
-// Function to get a job by ID field
+// Function to get a job by ID field -
 export const getJob = async (req, res, next) => {
   try {
     const job = await prisma.job.findUnique({
