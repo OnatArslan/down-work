@@ -200,7 +200,7 @@ export const complateContract = async (req, res, next) => {
           subject: `Complated contract`,
           text: `Hey ${req.user.username} recantly set complated yours contract for ${contract.job.title} post.
           If something wrong please reach us at example@support.com`,
-          receiverId: Number(contract.freelancer.id),
+          receiverId: Number(contract.freelancerId),
         },
       });
     }
