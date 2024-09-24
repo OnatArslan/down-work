@@ -88,6 +88,20 @@ export const getProposals = async (req, res, next) => {
             orderBy: {
               createdAt: `desc`,
             },
+            omit: {
+              updatedAt: true,
+              freelancerId: true,
+              clientId: true,
+              jobId: true,
+            },
+            include: {
+              freelancer: {
+                select: {
+                  username: true,
+                  email: true,
+                },
+              },
+            },
           },
         },
       });
