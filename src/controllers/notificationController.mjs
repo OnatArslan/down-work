@@ -28,6 +28,16 @@ export const getNotifications = async (req, res, next) => {
 
 export const deleteNotifications = async (req, res, next) => {
   try {
+    try {
+      await prisma.notification.deleteMany({
+        where: {
+          receiverId: Number(req.user.id),
+        },
+      });
+    } catch (error) {
+      return next(new Error(`Can not delete notifications`));
+    }
+
     res.status(200).json({
       status: `success`,
       message: `All notifications deleted successfully`,
