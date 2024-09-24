@@ -20,7 +20,7 @@ export const getAllJobs = async (req, res, next) => {
         id: `desc`,
       },
       where: {
-        OR: [{ status: `open` }, { status: `closed` }],
+        OR: [{ status: `open` }, { status: `progress` }],
       },
     });
     if (jobs.length === 0) {
