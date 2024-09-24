@@ -11,7 +11,6 @@ const getAllUsers = async (req, res, next) => {
       omit: {
         password: true,
         passwordChangedAt: true,
-        role: true,
       },
       include: {
         _count: {
@@ -19,6 +18,9 @@ const getAllUsers = async (req, res, next) => {
             createdJobs: true,
           },
         },
+      },
+      where: {
+        role: `client`,
       },
     });
     res.status(200).json({
