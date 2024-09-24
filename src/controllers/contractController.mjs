@@ -117,27 +117,38 @@ export const cancelContract = async (req, res, next) => {
         },
       });
     } else if ((req.user.role = `freelancer`)) {
-      contract = await prisma.contract.update({
-        where: {
-          id: Number(req.params.contractId),
-          freelancerId: Number(req.user.id),
-          status: `active`,
-        },
+      try {
+        contract = await prisma.contract.update({
+          where: {
+            id: Number(req.params.contractId),
+            freelancerId: Number(req.user.id),
+            status: `active`,
+          },
+          data: {
+            status: `cancelled`,
+          },
+          include: {
+            client: {
+              select: {
+                id: true,
+                email: true,
+              },
+            },
+            job: {
+              select: {
+                title: true,
+              },
+            },
+          },
+        });
+      } catch (error) {
+        return next(new Error(`Can not find active contract`));
+      }
+      notification = await prisma.notification.create({
         data: {
-          status: `cancelled`,
-        },
-        include: {
-          client: {
-            select: {
-              id: true,
-              email: true,
-            },
-          },
-          job: {
-            select: {
-              title: true,
-            },
-          },
+          receiverId: Number(contract.client.id),
+          subject: `Cancelled contract`,
+          text: `Hey your contract for ${contract.job.title} cancelled.If you have problem contact with us at example@support.com`,
         },
       });
     }
