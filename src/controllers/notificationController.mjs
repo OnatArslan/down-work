@@ -25,3 +25,14 @@ export const getNotifications = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deleteNotifications = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      status: `success`,
+      message: `All notifications deleted successfully`,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
