@@ -79,6 +79,7 @@ export const cancelContract = async (req, res, next) => {
   try {
     let contract;
     let notification;
+
     if (req.user.role === `client`) {
       try {
         // Try update contract
@@ -152,6 +153,7 @@ export const cancelContract = async (req, res, next) => {
         },
       });
     }
+
     // Send response with 200 OK
     res.status(200).json({
       status: `success`,
