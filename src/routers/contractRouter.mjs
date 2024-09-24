@@ -17,6 +17,6 @@ router
 
 router
   .route(`/:contractId/complate`)
-  .patch(verify, restrict([`client`]), complateContract);
+  .patch(verify, restrict([`client`, `freelancer`]), complateContract);
 
 export default router;

@@ -116,6 +116,30 @@ export const cancelContract = async (req, res, next) => {
           text: `Hey your contract for ${contract.job.title} cancelled.If you have problem contact with us at example@support.com`,
         },
       });
+    } else if ((req.user.role = `freelancer`)) {
+      contract = await prisma.contract.update({
+        where: {
+          id: Number(req.params.contractId),
+          freelancerId: Number(req.user.id),
+          status: `active`,
+        },
+        data: {
+          status: `cancelled`,
+        },
+        include: {
+          client: {
+            select: {
+              id: true,
+              email: true,
+            },
+          },
+          job: {
+            select: {
+              title: true,
+            },
+          },
+        },
+      });
     }
     // Send response with 200 OK
     res.status(200).json({
