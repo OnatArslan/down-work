@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 const getAllUsers = async (req, res, next) => {
   try {
     // Send the response
-    const users = await prisma.user.findMany({
+    const clients = await prisma.user.findMany({
       omit: {
         password: true,
         passwordChangedAt: true,
@@ -19,10 +19,12 @@ const getAllUsers = async (req, res, next) => {
             createdJobs: true,
           },
         },
-        notifications: true,
       },
     });
-    res.status(200).json(users);
+    res.status(200).json({
+      status: `success`,
+      clients,
+    });
   } catch (error) {
     // Handle any errors
     next(error);
