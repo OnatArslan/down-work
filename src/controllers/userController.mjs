@@ -23,9 +23,30 @@ const getAllUsers = async (req, res, next) => {
         role: `client`,
       },
     });
+    const freelancers = await prisma.user.findMany({
+      omit: {
+        password: true,
+        passwordChangedAt: true,
+      },
+      where: {
+        role: `freelancer`,
+      },
+      include: {
+        _count: {
+          select: {
+            freelancedContracts: {
+              where: {
+                status: `complated`,
+              },
+            },
+          },
+        },
+      },
+    });
     res.status(200).json({
       status: `success`,
       clients,
+      freelancers,
     });
   } catch (error) {
     // Handle any errors
