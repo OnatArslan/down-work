@@ -79,7 +79,7 @@ export const cancelContract = async (req, res, next) => {
   try {
     let contract;
     let notification;
-
+    let updatedJob;
     if (req.user.role === `client`) {
       try {
         // Try update contract
@@ -149,9 +149,23 @@ export const cancelContract = async (req, res, next) => {
         data: {
           receiverId: Number(contract.client.id),
           subject: `Cancelled contract`,
-          text: `Hey your contract for ${contract.job.title} cancelled.If you have problem contact with us at example@support.com`,
+          text: `Hey your contract for ${contract.job.title} cancelled.If you have problem contact with us at example@support.com
+          Also your ${contract.job.title} post is now set to closed.For update it use PATCH /job/:jobId`,
         },
       });
+      try {
+        updatedJob = await prisma.job.update({
+          where: {
+            id: Number(contract.jobId),
+            status: `progress`,
+          },
+          data: {
+            status: `closed`,
+          },
+        });
+      } catch (error) {
+        return next(new Error(`Can not update job post`));
+      }
     }
 
     // Send response with 200 OK
