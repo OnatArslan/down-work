@@ -203,6 +203,42 @@ export const complateContract = async (req, res, next) => {
           receiverId: Number(contract.freelancerId),
         },
       });
+    } else if (req.user.role === `freelancer`) {
+      try {
+        contract = await prisma.contract.update({
+          where: {
+            id: Number(req.params.contractId),
+            freelancerId: Number(req.user.id),
+            status: `active`,
+          },
+          data: {
+            status: `complated`,
+          },
+          include: {
+            client: {
+              select: {
+                username: true,
+                email: true,
+              },
+            },
+            job: {
+              select: {
+                title: true,
+              },
+            },
+          },
+        });
+      } catch (error) {
+        return next(new Error(`Can not find any active contract`));
+      }
+      notification = await prisma.notification.create({
+        data: {
+          subject: `Complated contract`,
+          text: `Hey ${req.user.username} recently set complated your contract for ${contract.job.title} post.
+          If something wrong please reach us at example@support.com`,
+          receiverId: Number(contract.clientId),
+        },
+      });
     }
 
     res.status(200).json({
