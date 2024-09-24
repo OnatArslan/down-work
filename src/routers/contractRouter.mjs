@@ -11,7 +11,7 @@ router
   .get(verify, restrict([`client`, `freelancer`]), getAllContracts);
 
 router
-  .route(`/:contractId`)
-  .delete(verify, restrict([`client`, `freelancer`]), cancelContract);
+  .route(`/:contractId/cancel`)
+  .patch(verify, restrict([`client`, `freelancer`]), cancelContract);
 
 export default router;
