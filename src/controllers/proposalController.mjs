@@ -135,6 +135,22 @@ export const getProposals = async (req, res, next) => {
             freelancerId: Number(req.user.id),
             jobId: Number(req.params.jobId),
           },
+          omit: {
+            updatedAt: true,
+            freelancerId: true,
+            clientId: true,
+            jobId: true,
+          },
+          include: {
+            client: {
+              select: { username: true, email: true },
+            },
+            job: {
+              select: {
+                title: true,
+              },
+            },
+          },
         });
         if (!proposal) {
           return next(
@@ -183,7 +199,7 @@ export const getProposals = async (req, res, next) => {
         }
         res.status(200).json({
           status: `success`,
-          message: `Here is your all proposals for your jobs`,
+          message: `All proposals for your job posts`,
           proposals,
         });
       } else if (req.user.role === `freelancer`) {
@@ -224,7 +240,7 @@ export const getProposals = async (req, res, next) => {
         }
         res.status(200).json({
           status: `success`,
-          message: `Here is your all proposed jobs`,
+          message: `Your proposals for jobs`,
           proposals,
         });
       }
