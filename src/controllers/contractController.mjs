@@ -127,3 +127,13 @@ export const cancelContract = async (req, res, next) => {
     next(error);
   }
 };
+
+export const complateContract = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      status: `success`,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
