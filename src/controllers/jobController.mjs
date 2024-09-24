@@ -19,6 +19,9 @@ export const getAllJobs = async (req, res, next) => {
       orderBy: {
         id: `desc`,
       },
+      where: {
+        OR: [{ status: `open` }, { status: `closed` }],
+      },
     });
     if (jobs.length === 0) {
       return next(new Error(`Can not find any job on server`));
