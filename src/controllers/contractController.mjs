@@ -166,10 +166,10 @@ export const cancelContract = async (req, res, next) => {
 export const complateContract = async (req, res, next) => {
   try {
     let contract;
-    let notifications;
+    let notification;
     if (req.user.role === `client`) {
       try {
-        contract = prisma.contract.update({
+        contract = await prisma.contract.update({
           where: {
             id: Number(req.params.contractId),
             clientId: Number(req.user.id),
@@ -195,10 +195,20 @@ export const complateContract = async (req, res, next) => {
       } catch (error) {
         return next(new Error(`Can not find any active contract`));
       }
+      notification = await prisma.notification.create({
+        data: {
+          subject: `Complated contract`,
+          text: `Hey ${req.user.username} recantly set complated yours contract for ${contract.job.title} post.
+          If something wrong please reach us at example@support.com`,
+          receiverId: Number(contract.freelancer.id),
+        },
+      });
     }
 
     res.status(200).json({
       status: `success`,
+      contract,
+      notification,
     });
   } catch (error) {
     next(error);
