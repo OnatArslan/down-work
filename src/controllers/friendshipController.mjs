@@ -282,6 +282,3 @@ export const unFollow = async (req, res, next) => {
     next(error);
   }
 };
-
-// Messages must be done
-// Delete all messages with a user
