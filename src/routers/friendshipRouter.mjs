@@ -9,12 +9,13 @@ import {
 
 const router = express.Router();
 
-router
-  .route(`/followers`)
-  .get(verify, restrict([`client`, `freelancer`]), getFollowers);
+router.use(verify, restrict([`client`, `freelancer`]));
 
-router
-  .route(`/:followingId/follow`)
-  .post(verify, restrict([`client`, `freelancer`]), sendFollowRequest);
+router.route(`/followers`).get(getFollowers);
 
+router.route(`/:followingId/follow`).post(sendFollowRequest);
+
+router.route(`/requests`).get();
+
+router.route(`/requests`).get;
 export default router;
