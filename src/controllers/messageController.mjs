@@ -70,12 +70,22 @@ export const sendMessage = async (req, res, next) => {
           status: `accepted`,
         },
       });
-
       if (!isFollowing) {
         return next(
           new Error(`${receiver.username} only allow messages from followings`)
         );
       }
+      message = await prisma.message.create({
+        data: {
+          senderId: Number(req.user.id),
+          recieverId: Number(receiver.id),
+          text: text,
+        },
+      });
+      res.status(200).json({
+        status: `success`,
+        message: message,
+      });
     }
   } catch (error) {
     next(error);
