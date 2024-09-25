@@ -283,7 +283,4 @@ export const unFollow = async (req, res, next) => {
   }
 };
 
-// Hey
-// a
-//
-// This route is not deifnedssss
+// Commit all here
