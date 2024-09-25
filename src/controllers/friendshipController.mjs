@@ -172,3 +172,39 @@ export const declineRequest = async (req, res, next) => {
     next(error);
   }
 };
+
+export const removeFollower = async (req, res, next) => {
+  try {
+    let existFollowData;
+    try {
+      existFollowData = await prisma.follows.update({
+        where: {
+          followingId_followedById: {
+            followedById: Number(req.params.followerId),
+            followingId: Number(req.user.id),
+          },
+          status: `accepted`,
+        },
+        data: {
+          status: `declined`,
+        },
+        include: {
+          followedBy: {
+            select: {
+              username: true,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      return next(error);
+    }
+    res.status(200).json({
+      status: `success`,
+      message: `${existFollowData.followedBy.username} removed from your followers`,
+      existFollowData,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
