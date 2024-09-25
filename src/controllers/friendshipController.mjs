@@ -99,6 +99,13 @@ export const sendFollowRequest = async (req, res, next) => {
         )
       );
     }
+    await prisma.notification.create({
+      data: {
+        receiverId: Number(follow.followingId),
+        subject: `Follow request`,
+        text: `${following.username} wants to follow you`,
+      },
+    });
     res.status(200).json({
       status: `success`,
       message: `Follow request successfully sended to user: ${following.username}`,
