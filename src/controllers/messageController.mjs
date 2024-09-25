@@ -37,23 +37,9 @@ export const getMessages = async (req, res, next) => {
 
 export const sendMessage = async (req, res, next) => {
   try {
-    const messages = await prisma.message.findMany({
+    const receiver = await prisma.user.findUnique({
       where: {
-        OR: [
-          {
-            senderId: Number(req.user.id),
-            recieverId: Number(req.params.userId),
-          },
-          {
-            senderId: Number(req.params.userId),
-            recieverId: Number(req.user.id),
-          },
-        ],
-      },
-      include: {
-        sender: {
-          select: { username: true },
-        },
+        id: Number(req.params.userId),
       },
     });
     res.status(200).json({
