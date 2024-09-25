@@ -42,6 +42,20 @@ export const sendMessage = async (req, res, next) => {
         id: Number(req.params.userId),
       },
     });
+    if (!receiver) {
+      return next(new Error(`Can not find user with given ID`));
+    }
+    const { text } = req.body;
+    let message;
+    if (receiver.allowUnknownMessages === true) {
+      message = await prisma.message.create({
+        data: {
+          senderId: Number(req.user.id),
+          recieverId: Number(receiver.id),
+          text: text,
+        },
+      });
+    }
     res.status(200).json({
       status: `success`,
       messages,

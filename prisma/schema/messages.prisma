@@ -6,7 +6,7 @@ model Message{
     sender User @relation("sendedMessages",fields: [senderId],references: [id], onDelete: Cascade)
     recieverId Int
     reciever User @relation("recievedMessages",fields: [recieverId],references: [id], onDelete: Cascade)
-
+    text String @db.Text
     contractId Int?
     contract Contract? @relation(fields: [contractId], references: [id], onDelete: Cascade)
     createdAt DateTime @default(now())
