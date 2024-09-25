@@ -50,7 +50,7 @@ export const sendFollowRequest = async (req, res, next) => {
     }
     res.status(200).json({
       status: `success`,
-      following,
+      follow,
     });
   } catch (error) {
     next(error);
