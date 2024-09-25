@@ -19,6 +19,8 @@ export const getMessages = async (req, res, next) => {
         updatedAt: true,
         senderId: true,
         recieverId: true,
+        contractId: true,
+        id: true,
       },
       include: {
         sender: {
