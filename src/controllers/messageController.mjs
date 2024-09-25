@@ -55,11 +55,27 @@ export const sendMessage = async (req, res, next) => {
           text: text,
         },
       });
+      res.status(200).json({
+        status: `success`,
+        message,
+      });
+    } else {
+      // 1) Check if recaiver is following current user
+      const isFollowing = await prisma.follows.findUnique({
+        where: {
+          followingId_followedById: {
+            followedById: Number(receiver.id),
+            followingId: Number(req.user.id),
+          },
+          status: `accepted`,
+        },
+      });
+      if (!isFollowing) {
+        return next(
+          new Error(`${receiver.username} only allow messages from followings`)
+        );
+      }
     }
-    res.status(200).json({
-      status: `success`,
-      messages,
-    });
   } catch (error) {
     next(error);
   }
