@@ -17,6 +17,23 @@ export const getFollowers = async (req, res, next) => {
   }
 };
 
+export const getFollowings = async (req, res, next) => {
+  try {
+    const followings = await prisma.follows.findMany({
+      where: {
+        followedBy: Number(req.user.id),
+        status: `accepted`,
+      },
+    });
+    res.status(200).json({
+      status: `success`,
+      followings,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const sendFollowRequest = async (req, res, next) => {
   try {
     const following = await prisma.user.findUnique({
@@ -105,9 +122,25 @@ export const getFollowRequests = async (req, res, next) => {
 
 export const acceptRequest = async (req, res, next) => {
   try {
-    const pendingRequest = await prisma.follows.findUnique({});
+    let pendingRequest;
+    try {
+      pendingRequest = await prisma.follows.update({
+        where: {
+          followingId_followedById: {
+            followingId: Number(req.user.id),
+            followedById: Number(req.params.followerId),
+          },
+        },
+        data: {
+          status: `accepted`,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
     res.status(200).json({
       status: `success`,
+      pendingRequest,
     });
   } catch (error) {
     next(error);
