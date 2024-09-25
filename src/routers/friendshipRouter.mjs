@@ -8,6 +8,7 @@ import {
   getFollowRequests,
   acceptRequest,
   declineRequest,
+  getFollowings,
 } from '../controllers/friendshipController.mjs';
 
 const router = express.Router();
@@ -15,6 +16,7 @@ const router = express.Router();
 router.use(verify, restrict([`client`, `freelancer`]));
 
 router.route(`/followers`).get(getFollowers);
+router.route(`/followings`).get(getFollowings);
 
 router.route(`/:followingId/follow`).post(sendFollowRequest);
 

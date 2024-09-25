@@ -21,7 +21,7 @@ export const getFollowings = async (req, res, next) => {
   try {
     const followings = await prisma.follows.findMany({
       where: {
-        followedBy: Number(req.user.id),
+        followedById: Number(req.user.id),
         status: `accepted`,
       },
     });
