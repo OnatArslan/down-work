@@ -16,7 +16,6 @@ export const getMessages = async (req, res, next) => {
         ],
       },
       omit: {
-        updatedAt: true,
         senderId: true,
         recieverId: true,
         contractId: true,
@@ -99,6 +98,13 @@ export const sendMessage = async (req, res, next) => {
 
 export const deleteMessages = async (req, res, next) => {
   try {
+    try {
+    } catch (error) {
+      return next(error);
+    }
+    res.status(200).json({
+      status: `success`,
+    });
   } catch (error) {
     next(error);
   }
