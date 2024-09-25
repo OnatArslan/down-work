@@ -2,6 +2,6 @@
 1.1-(job, auth, admin, notification, proposal, contract, profile, friendship, message)
 2-Add update profile future
 2.1-Add password reset future(auth)
-2.2-Add delete account future(auth) --maybe using SMS confirmation --if SMS add phone number field
+2.2-Add delete account future(auth) --using email confirmation
 3-Write Postman docs for github
 4-
