@@ -7,8 +7,8 @@ model Message{
     recieverId Int
     reciever User @relation("recievedMessages",fields: [recieverId],references: [id], onDelete: Cascade)
 
-    contractId Int
-    contract Contract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+    contractId Int?
+    contract Contract? @relation(fields: [contractId], references: [id], onDelete: Cascade)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     @@map("message")
