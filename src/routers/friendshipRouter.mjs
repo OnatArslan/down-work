@@ -22,7 +22,7 @@ router.route(`/followers`).get(getFollowers);
 router.route(`/followers/:followerId`).patch(removeFollower);
 
 router.route(`/followings`).get(getFollowings);
-router.route(`/followings/followingId`).patch(unFollow);
+router.route(`/followings/:followingId`).patch(unFollow);
 
 router.route(`/:followingId/follow`).post(sendFollowRequest);
 
