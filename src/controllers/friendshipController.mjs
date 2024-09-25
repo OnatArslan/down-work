@@ -17,6 +17,7 @@ export const getFollowers = async (req, res, next) => {
     });
     res.status(200).json({
       status: `success`,
+      message: `You have ${followers.length} followers`,
       followers,
     });
   } catch (error) {
@@ -41,6 +42,7 @@ export const getFollowings = async (req, res, next) => {
     });
     res.status(200).json({
       status: `success`,
+      message: `You are following ${followings.length} user`,
       followings,
     });
   } catch (error) {
