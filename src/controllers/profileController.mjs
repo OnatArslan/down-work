@@ -14,12 +14,6 @@ export const getMe = async (req, res, next) => {
           updatedAt: true,
         },
         include: {
-          notifications: {
-            select: {
-              subject: true,
-              text: true,
-            },
-          },
           _count: {
             select: {
               createdJobs: true,
@@ -28,6 +22,16 @@ export const getMe = async (req, res, next) => {
               },
               recievedMessages: true,
               notifications: true,
+              followedBy: {
+                where: {
+                  status: `accepted`,
+                },
+              },
+              following: {
+                where: {
+                  status: `accepted`,
+                },
+              },
             },
           },
         },
