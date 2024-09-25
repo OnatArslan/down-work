@@ -208,3 +208,39 @@ export const removeFollower = async (req, res, next) => {
     next(error);
   }
 };
+
+export const unFollow = async (req, res, next) => {
+  try {
+    let existFollowData;
+    try {
+      existFollowData = await prisma.follows.update({
+        where: {
+          followingId_followedById: {
+            followedById: Number(req.user.id),
+            followingId: Number(req.params.followingId),
+          },
+          status: `accepted`,
+        },
+        data: {
+          status: `declined`,
+        },
+        include: {
+          following: {
+            select: {
+              username: true,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      return next(new Error(`Can not find follower with given ID!`));
+    }
+    res.status(200).json({
+      status: `success`,
+      message: `${existFollowData.following.username} successfully unfollowed.`,
+      existFollowData,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

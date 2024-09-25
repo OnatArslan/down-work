@@ -10,6 +10,7 @@ import {
   declineRequest,
   getFollowings,
   removeFollower,
+  unFollow,
 } from '../controllers/friendshipController.mjs';
 
 const router = express.Router();
@@ -21,6 +22,7 @@ router.route(`/followers`).get(getFollowers);
 router.route(`/followers/:followerId`).patch(removeFollower);
 
 router.route(`/followings`).get(getFollowings);
+router.route(`/followings/followingId`).patch(unFollow);
 
 router.route(`/:followingId/follow`).post(sendFollowRequest);
 
