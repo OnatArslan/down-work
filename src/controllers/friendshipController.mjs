@@ -13,6 +13,7 @@ export const getFollowers = async (req, res, next) => {
       include: {
         followedBy: {
           select: {
+            id: true,
             username: true,
           },
         },
