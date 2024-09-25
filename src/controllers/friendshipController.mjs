@@ -201,7 +201,7 @@ export const removeFollower = async (req, res, next) => {
     }
     res.status(200).json({
       status: `success`,
-      message: `${existFollowData.followedBy.username} removed from your followers`,
+      message: `${existFollowData.followedBy.username} successfully removed from your followers`,
       existFollowData,
     });
   } catch (error) {
