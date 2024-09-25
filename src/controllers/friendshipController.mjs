@@ -136,7 +136,7 @@ export const acceptRequest = async (req, res, next) => {
         },
       });
     } catch (error) {
-      next(error);
+      return next(error);
     }
     res.status(200).json({
       status: `success`,
@@ -149,6 +149,22 @@ export const acceptRequest = async (req, res, next) => {
 
 export const declineRequest = async (req, res, next) => {
   try {
+    let pendingRequest;
+    try {
+      pendingRequest = await prisma.follows.update({
+        where: {
+          followingId_followedById: {
+            followingId: Number(req.user.id),
+            followedById: Number(req.params.followerId),
+          },
+        },
+        data: {
+          status: `declined`,
+        },
+      });
+    } catch (error) {
+      return next(error);
+    }
     res.status(200).json({
       status: `success`,
     });
