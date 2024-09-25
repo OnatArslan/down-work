@@ -1,7 +1,11 @@
-1-Control all controllers and test it
+1.0-Control all controllers and test it
 1.1-(job, auth, admin, notification, proposal, contract, profile, friendship, message)
-2-Add update profile future
+
+2.0-Add update profile future
 2.1-Add password reset future(auth)
 2.2-Add delete account future(auth) --using email confirmation
+
 3-Write Postman docs for github
-4-
+4-Update READ.ME file
+5-Look controllers again
+6-Update Prisma Models and try to make them lightweight
