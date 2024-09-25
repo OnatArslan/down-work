@@ -96,3 +96,10 @@ export const sendMessage = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deleteMessages = async (req, res, next) => {
+  try {
+  } catch (error) {
+    next(error);
+  }
+};
