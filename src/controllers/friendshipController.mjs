@@ -28,8 +28,12 @@ export const sendFollowRequest = async (req, res, next) => {
         username: true,
       },
     });
-    if (!following) {
-      return next(new Error(`Can not find any user with given ID`));
+    if (!following || following.id === req.user.id) {
+      return next(
+        new Error(
+          `Can not find any user with given ID or this ID belongs to your account!`
+        )
+      );
     }
     res.status(200).json({
       status: `success`,
