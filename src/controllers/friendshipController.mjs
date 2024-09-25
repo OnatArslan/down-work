@@ -36,7 +36,21 @@ export const sendFollowRequest = async (req, res, next) => {
         )
       );
     }
-    // If not create follow row
+    // Check if already follower
+    const isFollower = await prisma.follows.findUnique({
+      where: {
+        followingId_followedById: {
+          followedById: Number(req.user.id),
+          followingId: Number(following.id),
+        },
+        status: `accepted`,
+      },
+    });
+    if (isFollower) {
+      return next(
+        new Error(`You are already follower of user :${following.username}`)
+      );
+    }
     let follow;
     try {
       follow = await prisma.follows.create({
@@ -46,10 +60,15 @@ export const sendFollowRequest = async (req, res, next) => {
         },
       });
     } catch (error) {
-      return next(error);
+      return next(
+        new Error(
+          `Pending request exist or user declined your first request.You can not spam follow request!!!`
+        )
+      );
     }
     res.status(200).json({
       status: `success`,
+      message: `Follow request successfully sended to user: ${following.username}`,
       follow,
     });
   } catch (error) {
