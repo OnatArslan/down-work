@@ -70,6 +70,7 @@ export const sendMessage = async (req, res, next) => {
           status: `accepted`,
         },
       });
+
       if (!isFollowing) {
         return next(
           new Error(`${receiver.username} only allow messages from followings`)
