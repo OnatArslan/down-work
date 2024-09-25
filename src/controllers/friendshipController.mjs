@@ -83,6 +83,9 @@ export const getFollowRequests = async (req, res, next) => {
         followingId: Number(req.user.id),
         status: `pending`,
       },
+      omit: {
+        followingId: true,
+      },
       include: {
         followedBy: {
           select: {
@@ -102,6 +105,7 @@ export const getFollowRequests = async (req, res, next) => {
 
 export const acceptRequest = async (req, res, next) => {
   try {
+    const pendingRequest = await prisma.follows.findUnique({});
     res.status(200).json({
       status: `success`,
     });

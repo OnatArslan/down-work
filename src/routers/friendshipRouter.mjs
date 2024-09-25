@@ -20,7 +20,7 @@ router.route(`/:followingId/follow`).post(sendFollowRequest);
 
 router.route(`/requests`).get(getFollowRequests);
 
-router.route(`/requests/:requestId/accept`).patch(acceptRequest);
-router.route(`/requests/:requestId/decline`).patch(declineRequest);
+router.route(`/requests/:followerId/accept`).patch(acceptRequest);
+router.route(`/requests/:followerId/decline`).patch(declineRequest);
 
 export default router;
