@@ -70,7 +70,7 @@ export const sendFollowRequest = async (req, res, next) => {
       );
     }
     // Check if already follower
-    const isFollower = await prisma.follows.findUnique({
+    const alreadyFollower = await prisma.follows.findUnique({
       where: {
         followingId_followedById: {
           followedById: Number(req.user.id),
@@ -79,7 +79,7 @@ export const sendFollowRequest = async (req, res, next) => {
         status: `accepted`,
       },
     });
-    if (isFollower) {
+    if (alreadyFollower) {
       return next(
         new Error(`You are already follower of user :${following.username}`)
       );
