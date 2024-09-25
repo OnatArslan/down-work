@@ -14,7 +14,7 @@ router
   .get(verify, restrict([`client`, `freelancer`]), getFollowers);
 
 router
-  .route(`/:userId/follow`)
+  .route(`/:followingId/follow`)
   .post(verify, restrict([`client`, `freelancer`]), sendFollowRequest);
 
 export default router;
