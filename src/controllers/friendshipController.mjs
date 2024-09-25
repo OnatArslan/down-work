@@ -161,6 +161,13 @@ export const acceptRequest = async (req, res, next) => {
     } catch (error) {
       return next(error);
     }
+    await prisma.notification.create({
+      data: {
+        receiverId: Number(pendingRequest.followedById),
+        subject: `Follow request accepted`,
+        text: `Hey your follow request accepted.`,
+      },
+    });
     res.status(200).json({
       status: `success`,
       pendingRequest,
