@@ -197,7 +197,7 @@ export const removeFollower = async (req, res, next) => {
         },
       });
     } catch (error) {
-      return next(error);
+      return next(new Error(`Can not find follower with given ID!`));
     }
     res.status(200).json({
       status: `success`,
