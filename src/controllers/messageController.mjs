@@ -102,11 +102,11 @@ export const deleteMessages = async (req, res, next) => {
       await prisma.message.deleteMany({
         where: {
           senderId: Number(req.user.id),
-          recieverId: Number(req.params.id),
+          recieverId: Number(req.params.userId),
         },
       });
     } catch (error) {
-      return next(error);
+      return next(new Error(`User can not found.Please check it again`));
     }
     res.status(200).json({
       status: `success`,
