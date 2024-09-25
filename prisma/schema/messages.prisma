@@ -1,7 +1,6 @@
 
 model Message{
     id Int @id @default(autoincrement())
-
     senderId Int
     sender User @relation("sendedMessages",fields: [senderId],references: [id], onDelete: Cascade)
     recieverId Int
@@ -10,6 +9,5 @@ model Message{
     contractId Int?
     contract Contract? @relation(fields: [contractId], references: [id], onDelete: Cascade)
     createdAt DateTime @default(now())
-    
     @@map("message")
 }
