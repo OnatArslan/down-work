@@ -28,12 +28,25 @@ export const sendFollowRequest = async (req, res, next) => {
         username: true,
       },
     });
+    // Check if following user exist or id is current user's id
     if (!following || following.id === req.user.id) {
       return next(
         new Error(
           `Can not find any user with given ID or this ID belongs to your account!`
         )
       );
+    }
+    // If not create follow row
+    let follow;
+    try {
+      follow = await prisma.follows.create({
+        data: {
+          followedById: Number(req.user.id),
+          followingId: Number(following.id),
+        },
+      });
+    } catch (error) {
+      return next(error);
     }
     res.status(200).json({
       status: `success`,
