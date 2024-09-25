@@ -109,3 +109,13 @@ export const acceptRequest = async (req, res, next) => {
     next(error);
   }
 };
+
+export const declineRequest = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      status: `success`,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
