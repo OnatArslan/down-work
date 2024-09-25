@@ -7,6 +7,13 @@ export const getFollowers = async (req, res, next) => {
         followingId: Number(req.user.id),
         status: `accepted`,
       },
+      include: {
+        followedBy: {
+          select: {
+            username: true,
+          },
+        },
+      },
     });
     res.status(200).json({
       status: `success`,
