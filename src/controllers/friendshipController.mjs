@@ -78,8 +78,23 @@ export const sendFollowRequest = async (req, res, next) => {
 
 export const getFollowRequests = async (req, res, next) => {
   try {
+    const followRequests = await prisma.follows.findMany({
+      where: {
+        followingId: Number(req.user.id),
+        status: `pending`,
+      },
+      include: {
+        followedBy: {
+          select: {
+            username: true,
+            email: true,
+          },
+        },
+      },
+    });
     res.status(200).json({
       status: `success`,
+      followRequests,
     });
   } catch (error) {
     next(error);
