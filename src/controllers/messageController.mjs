@@ -99,6 +99,12 @@ export const sendMessage = async (req, res, next) => {
 export const deleteMessages = async (req, res, next) => {
   try {
     try {
+      await prisma.message.deleteMany({
+        where: {
+          senderId: Number(req.user.id),
+          recieverId: Number(req.params.id),
+        },
+      });
     } catch (error) {
       return next(error);
     }
