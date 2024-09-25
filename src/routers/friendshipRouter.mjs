@@ -17,5 +17,4 @@ router.route(`/:followingId/follow`).post(sendFollowRequest);
 
 router.route(`/requests`).get();
 
-router.route(`/requests`).get;
 export default router;
