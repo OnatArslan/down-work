@@ -1,11 +1,5 @@
-1. [ Update all controllers and check if there is any error ] Task 1
-Create admin router for testing purpose
-2. [ Check all models and delete updatedAt fields some] Task 2
-3. [ Create send message controller and router ] Task 3
-4. [ Check if users are follow eachother or there is a progressing contract for messages] Task 4
-5. [ ] Task 5
-6. [ ] Task 6
-7. [ ] Task 7
-8. [ ] Task 8
-9. [ ] Task 9
-10. [ ] Task 10
+1-Control all controllers and test it
+1.1-(job, auth, admin, notification, proposal, contract, profile, friendship, message)
+2-Write Postman docs for github
+3-Add password reset functionalty(auth)
+4-
