@@ -10,6 +10,6 @@ model Message{
     contractId Int?
     contract Contract? @relation(fields: [contractId], references: [id], onDelete: Cascade)
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    
     @@map("message")
 }
