@@ -27,6 +27,9 @@ export const getMessages = async (req, res, next) => {
           select: { username: true },
         },
       },
+      orderBy: {
+        createdAt: `asc`,
+      },
     });
     res.status(200).json({
       status: `success`,
