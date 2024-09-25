@@ -87,7 +87,6 @@ export const getFollowRequests = async (req, res, next) => {
         followedBy: {
           select: {
             username: true,
-            email: true,
           },
         },
       },
@@ -95,6 +94,16 @@ export const getFollowRequests = async (req, res, next) => {
     res.status(200).json({
       status: `success`,
       followRequests,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const acceptRequest = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      status: `success`,
     });
   } catch (error) {
     next(error);
