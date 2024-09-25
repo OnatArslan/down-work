@@ -9,7 +9,7 @@ model User {
   updatedAt         DateTime @updatedAt
   passwordChangedAt DateTime @default(now())
   role              Role     @default(client)
-
+  allowUnknownMessages Boolean @default(false)
   // Rel between jobs O-M
   createdJobs       Job[] 
 
