@@ -3,6 +3,18 @@ import jobSchema from '../joi/job.mjs';
 // Function to get all jobs
 export const getAllJobs = async (req, res, next) => {
   try {
+    // 127.0.0.1:3000/jobs?page=2&sort=salary&order=asc&limit=100&fields=title,budget,location&status=open&paymentType=fixed
+    // Get request queries
+    const {
+      page = 1,
+      limit = 100,
+      sort = 'createdAt',
+      order = 'desc',
+      fields,
+      ...filters
+    } = req.query;
+    console.log(req.query);
+
     // Get job data
     const jobs = await prisma.job.findMany({
       include: {
