@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import transport from '../utils/mailer.mjs';
 
+// This need update #TODO#
 export const signUp = async (req, res, next) => {
   try {
     if (req.body.role === `admin`) {
