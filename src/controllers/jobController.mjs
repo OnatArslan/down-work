@@ -18,7 +18,8 @@ export const getAllJobs = async (req, res, next) => {
     const skip = (page - 1) * limit;
     const limitPerPage = parseInt(limit);
 
-    console.log(filters);
+    const sortOptions = {};
+    sortOptions[sort] = order === `desc` ? `desc` : `asc`;
 
     // Get job data
     const jobs = await prisma.job.findMany({
@@ -35,7 +36,7 @@ export const getAllJobs = async (req, res, next) => {
         employerId: true,
       },
       orderBy: {
-        id: `desc`,
+        [sort]: sortOptions[sort],
       },
       // Filter fields
       where: {
