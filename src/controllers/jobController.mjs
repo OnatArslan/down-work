@@ -1,6 +1,6 @@
 import prisma from '../db/prisma.mjs';
 import jobSchema from '../joi/job.mjs';
-// Function to get all jobs
+// DONE
 export const getAllJobs = async (req, res, next) => {
   try {
     // 127.0.0.1:3000/jobs?page=2&sort=salary&order=asc&limit=100&fields=title,budget,location&status=open&paymentType=fixed
