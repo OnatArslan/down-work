@@ -1,5 +1,5 @@
 import Joi from 'joi';
-
+// Validator
 const userSchema = Joi.object({
   id: Joi.number().integer().positive().optional(), // Optional because it will be auto-incremented
   username: Joi.string().required(),
