@@ -17,10 +17,8 @@ router.use(`/:jobId/proposals`, proposalRouter);
 
 router.route(`/`).get(getAllJobs);
 router.route(`/`).post(verify, restrict([`client`]), createJob);
-router
-  .route(`/:jobId`)
-  .get(getJob)
-  .patch(verify, updateJob)
-  .delete(verify, deleteJob);
+
+router.route(`/:jobId`).get(getJob);
+router.route(`/:jobId`).patch(verify, updateJob).delete(verify, deleteJob);
 
 export default router;
