@@ -3,6 +3,7 @@ import jobSchema from '../joi/job.mjs';
 // Function to get all jobs
 export const getAllJobs = async (req, res, next) => {
   try {
+    // Get job data
     const jobs = await prisma.job.findMany({
       include: {
         employer: {
@@ -23,9 +24,8 @@ export const getAllJobs = async (req, res, next) => {
         OR: [{ status: `open` }, { status: `progress` }],
       },
     });
-    if (jobs.length === 0) {
-      return next(new Error(`Can not find any job on server`));
-    }
+    // Get job count
+
     // Return response with 200 code
     res.status(200).json({
       status: `success`,
@@ -43,17 +43,17 @@ export const getJob = async (req, res, next) => {
       where: {
         // Use Number because this is an integer field but req.params.jobId is string
         id: Number(req.params.jobId),
+        // Only allow show open types
         status: `open`,
       },
       omit: {
         employerId: true,
-        updatedAt: true,
       },
       include: {
         employer: {
           select: {
+            id: true,
             username: true,
-            email: true,
           },
         },
         _count: {
@@ -63,6 +63,7 @@ export const getJob = async (req, res, next) => {
         },
       },
     });
+    // Return response
     if (!job) {
       return next(new Error(`Can not find any open job with given ID`));
     }
@@ -75,12 +76,15 @@ export const getJob = async (req, res, next) => {
   }
 };
 
+// DONE
 export const createJob = async (req, res, next) => {
   try {
+    // Validation part with joi(can be done with zod)
     const validData = await jobSchema.validateAsync({
       ...req.body,
       employerId: req.user.id,
     });
+    // If validation failed ...
     if (validData.error) {
       return next(new Error(validData.error));
     }
@@ -88,18 +92,15 @@ export const createJob = async (req, res, next) => {
     try {
       newJob = await prisma.job.create({
         data: { ...validData, employerId: req.user.id },
-        include: {
-          employer: {
-            select: {
-              username: true,
-            },
-          },
+        omit: {
+          updatedAt: true,
+          employerId: true,
         },
       });
     } catch (error) {
       return next(error);
     }
-
+    // Send response
     res.status(200).json({
       status: `success`,
       job: newJob,
@@ -125,11 +126,7 @@ export const updateJob = async (req, res, next) => {
         data: req.body,
       });
     } catch (error) {
-      return next(
-        new Error(
-          `Data is not valid or you are trying to update other persons job post`
-        )
-      );
+      return next(error);
     }
     // Send response
     res.status(200).json({
