@@ -13,7 +13,12 @@ export const getAllJobs = async (req, res, next) => {
       fields,
       ...filters
     } = req.query;
-    console.log(req.query);
+
+    // Pagination
+    const skip = (page - 1) * limit;
+    const limitPerPage = parseInt(limit);
+
+    console.log(filters);
 
     // Get job data
     const jobs = await prisma.job.findMany({
@@ -32,10 +37,14 @@ export const getAllJobs = async (req, res, next) => {
       orderBy: {
         id: `desc`,
       },
+      // Filter fields
       where: {
         status: `open`,
+        ...filters,
       },
-      take: 100,
+      // Pagination
+      take: limitPerPage,
+      skip: skip,
     });
     // Get job count
     const jobCount = await prisma.job.count({
