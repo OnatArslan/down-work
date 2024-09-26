@@ -17,7 +17,7 @@ export const getAllJobs = async (req, res, next) => {
     // Pagination
     const skip = (page - 1) * limit;
     const limitPerPage = parseInt(limit);
-
+    // Sort
     const sortOptions = {};
     sortOptions[sort] = order === `desc` ? `desc` : `asc`;
 
@@ -32,7 +32,6 @@ export const getAllJobs = async (req, res, next) => {
         },
       },
       omit: {
-        updatedAt: true,
         employerId: true,
       },
       orderBy: {
