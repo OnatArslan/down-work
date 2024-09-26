@@ -16,9 +16,12 @@ const router = express.Router();
 router.use(`/:jobId/proposals`, proposalRouter);
 
 router.route(`/`).get(getAllJobs);
-router.route(`/`).post(verify, restrict([`client`]), createJob);
-
 router.route(`/:jobId`).get(getJob);
-router.route(`/:jobId`).patch(verify, updateJob).delete(verify, deleteJob);
+
+// This is auth and authz middleware for protecting routes
+router.use(verify, restrict([`client`]));
+
+router.route(`/`).post(createJob);
+router.route(`/:jobId`).patch(updateJob).delete(deleteJob);
 
 export default router;
