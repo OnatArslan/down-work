@@ -67,8 +67,8 @@ app.get(`*`, async (req, res, next) => {
 
 // Error-handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: err.stack });
+  console.error(err.message);
+  res.status(500).json({ error: err.message });
 });
 
 export default server;
