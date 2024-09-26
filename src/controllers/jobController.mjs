@@ -21,14 +21,24 @@ export const getAllJobs = async (req, res, next) => {
         id: `desc`,
       },
       where: {
-        OR: [{ status: `open` }, { status: `progress` }],
+        status: `open`,
       },
+      take: 100,
     });
     // Get job count
-
+    const jobCount = await prisma.job.count({
+      where: {
+        status: `open`,
+      },
+      select: {
+        _all: true,
+      },
+    });
     // Return response with 200 code
     res.status(200).json({
       status: `success`,
+      totalJobCount: jobCount._all,
+      pageJobCount: jobs.length,
       jobs: jobs,
     });
   } catch (error) {
