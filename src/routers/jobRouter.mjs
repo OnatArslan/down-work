@@ -15,11 +15,8 @@ const router = express.Router();
 // Use proposal router for this routes---
 router.use(`/:jobId/proposals`, proposalRouter);
 
-router
-  .route(`/`)
-  .get(getAllJobs)
-  .post(verify, restrict([`client`]), createJob);
-
+router.route(`/`).get(getAllJobs);
+router.route(`/`).post(verify, restrict([`client`]), createJob);
 router
   .route(`/:jobId`)
   .get(getJob)
