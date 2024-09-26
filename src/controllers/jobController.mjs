@@ -57,10 +57,10 @@ export const getAllJobs = async (req, res, next) => {
     });
     // Return response with 200 code
     res.status(200).json({
-      status: `success`,
+      success: true,
       totalJobCount: jobCount._all,
       pageJobCount: jobs.length,
-      jobs: jobs,
+      data: { jobs },
     });
   } catch (error) {
     next(error);
