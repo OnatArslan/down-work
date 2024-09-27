@@ -140,7 +140,7 @@ export const createJob = async (req, res, next) => {
     next(error);
   }
 };
-
+// NOT DONE --
 export const updateJob = async (req, res, next) => {
   try {
     if (req.body.employerId || req.body.id) {
