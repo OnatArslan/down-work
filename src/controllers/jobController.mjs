@@ -143,6 +143,7 @@ export const createJob = async (req, res, next) => {
 // NOT DONE --
 export const updateJob = async (req, res, next) => {
   try {
+    // commit
     if (req.body.employerId || req.body.id) {
       return next(new Error(`Can not update employerId or id`));
     }
