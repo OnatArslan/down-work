@@ -147,6 +147,7 @@ export const updateJob = async (req, res, next) => {
     if (req.body.employerId || req.body.id) {
       return next(new Error(`Can not update employerId or id`));
     }
+    // Commit 2222
     let updatedJob;
     try {
       updatedJob = await prisma.job.update({
