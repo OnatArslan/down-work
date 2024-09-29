@@ -27,6 +27,7 @@ const getAllUsers = async (req, res, next) => {
       omit: {
         password: true,
         passwordChangedAt: true,
+
       },
       where: {
         role: `freelancer`,
