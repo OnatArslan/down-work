@@ -1,4 +1,4 @@
-import prisma from '../db/prisma.mjs';
+import prisma from "../db/prisma.mjs";
 
 export const getFollowers = async (req, res, next) => {
   try {
@@ -73,8 +73,8 @@ export const sendFollowRequest = async (req, res, next) => {
     if (!following || following.id === req.user.id) {
       return next(
         new Error(
-          `Can not find any user with given ID or this ID belongs to your account!`
-        )
+          `Can not find any user with given ID or this ID belongs to your account!`,
+        ),
       );
     }
     // Check if already follower
@@ -89,7 +89,7 @@ export const sendFollowRequest = async (req, res, next) => {
     });
     if (alreadyFollower) {
       return next(
-        new Error(`You are already follower of user :${following.username}`)
+        new Error(`You are already follower of user :${following.username}`),
       );
     }
     let follow;
@@ -103,8 +103,8 @@ export const sendFollowRequest = async (req, res, next) => {
     } catch (error) {
       return next(
         new Error(
-          `Pending request exist or user declined your first request.You can not spam follow request!!!`
-        )
+          `Pending request exist or user declined your first request.You can not spam follow request!!!`,
+        ),
       );
     }
     await prisma.notification.create({
