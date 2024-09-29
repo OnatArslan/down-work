@@ -1,8 +1,8 @@
-import prisma from '../db/prisma.mjs';
-import userSchema from '../joi/user.mjs';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import transport from '../utils/mailer.mjs';
+import prisma from "../db/prisma.mjs";
+import userSchema from "../joi/user.mjs";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import transport from "../utils/mailer.mjs";
 
 // This need update #TODO#
 export const signUp = async (req, res, next) => {
@@ -17,6 +17,7 @@ export const signUp = async (req, res, next) => {
     }
     // If data is valid  delete passwordConfirmation
     delete validData.passwordConfirmation;
+
     // Hash raw password and store in some variable
     const hashedPassword = await bcrypt.hash(validData.password, 10);
     if (!hashedPassword) {
@@ -33,6 +34,7 @@ export const signUp = async (req, res, next) => {
         password: true,
       },
     });
+
     // Create a JWT and send it via cookie
     const token = jwt.sign(newUser, process.env.JWT_SECRET, {
       expiresIn: `2 days`,
@@ -41,7 +43,7 @@ export const signUp = async (req, res, next) => {
     // Note it token payload contains all user data
     res.cookie(`token`, token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // Ensures the cookie is sent only over HTTPS in production
+      secure: process.env.NODE_ENV === "production", // Ensures the cookie is sent only over HTTPS in production
       maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days in milliseconds
     });
 
@@ -49,9 +51,9 @@ export const signUp = async (req, res, next) => {
     const mail = await transport.sendMail({
       from: '"Down Work Co.👻" <downwork@example.com>', // sender address
       to: `${newUser.email}`, // list of receivers
-      subject: 'Welcome Mail 🌲', // Subject line
-      text: 'Welcome to our app.We are happy to see you❤️', // plain text body
-      html: '<b>Welcome</b>', // html body
+      subject: "Welcome Mail 🌲", // Subject line
+      text: "Welcome to our app.We are happy to see you❤️", // plain text body
+      html: "<b>Welcome</b>", // html body
     });
 
     // return response and send user data
@@ -96,7 +98,7 @@ export const signIn = async (req, res, next) => {
     // Note it token payload contains all user data
     res.cookie(`token`, token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // Ensures the cookie is sent only over HTTPS in production
+      secure: process.env.NODE_ENV === "production", // Ensures the cookie is sent only over HTTPS in production
       maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days in milliseconds
     });
 
@@ -114,7 +116,7 @@ export const logOut = async (req, res, next) => {
     // Clear jwt token from cookies
     res.clearCookie(`token`, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.NODE_ENV === "production",
     });
     // Send response with message
     res.status(200).json({
@@ -133,8 +135,8 @@ export const verify = async (req, res, next) => {
     if (!token) {
       return next(
         new Error(
-          'Token is missing. Please log in to get access to this route.'
-        )
+          "Token is missing. Please log in to get access to this route.",
+        ),
       );
     }
 
@@ -144,7 +146,7 @@ export const verify = async (req, res, next) => {
       decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch (err) {
       return next(
-        new Error('Token is invalid or expired. Please log in to get access.')
+        new Error("Token is invalid or expired. Please log in to get access."),
       );
     }
 
@@ -156,21 +158,23 @@ export const verify = async (req, res, next) => {
     // If user does not exist, return an error and give a message
     if (!user) {
       return next(
-        new Error('Account deleted recently. Please sign up for a new account.')
+        new Error(
+          "Account deleted recently. Please sign up for a new account.",
+        ),
       );
     }
 
     // Get Unix time from user.passwordChangedAt
     const passwordUnixTimestamp = Math.floor(
-      user.passwordChangedAt.getTime() / 1000
+      user.passwordChangedAt.getTime() / 1000,
     );
 
     // If user changes password after token is issued, return an error
     if (passwordUnixTimestamp > decoded.iat) {
       return next(
         new Error(
-          'User recently changed password. Please log in again to get access.'
-        )
+          "User recently changed password. Please log in again to get access.",
+        ),
       );
     }
     // Attached user to req.user
