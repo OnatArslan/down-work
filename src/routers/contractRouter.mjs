@@ -1,10 +1,11 @@
-import express from 'express';
-import { verify, restrict } from '../controllers/authController.mjs';
+import express from "express";
+import { verify, restrict } from "../controllers/authController.mjs";
 import {
   getAllContracts,
   cancelContract,
   complateContract,
-} from '../controllers/contractController.mjs';
+} from "../controllers/contractController.mjs";
+
 const router = express.Router();
 
 router
@@ -18,7 +19,5 @@ router
 router
   .route(`/:contractId/complate`)
   .patch(verify, restrict([`client`, `freelancer`]), complateContract);
-
-
 
 export default router;
