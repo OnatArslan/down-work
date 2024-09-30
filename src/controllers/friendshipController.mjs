@@ -10,6 +10,7 @@ export const getFollowers = async (req, res, next) => {
       omit: {
         followingId: true,
       },
+      // Include follower acc
       include: {
         followedBy: {
           select: {
