@@ -77,7 +77,7 @@ export const sendFollowRequest = async (req, res, next) => {
         ),
       );
     }
-    // Check if already follower
+    // Check if already follower if true return error
     const alreadyFollower = await prisma.follows.findUnique({
       where: {
         followingId_followedById: {
