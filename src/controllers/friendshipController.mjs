@@ -116,7 +116,7 @@ export const sendFollowRequest = async (req, res, next) => {
     });
     res.status(200).json({
       status: `success`,
-      message: `Follow request successfully sended to user: ${following.username}`,
+      message: `Follow request successfully sent to user: ${following.username}`,
       follow,
     });
   } catch (error) {
