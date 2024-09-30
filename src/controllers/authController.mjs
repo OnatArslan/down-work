@@ -166,6 +166,7 @@ export const verify = async (req, res, next) => {
 
     // Get Unix time from user.passwordChangedAt
     const passwordUnixTimestamp = Math.floor(
+      //   Check user password changes after login
       user.passwordChangedAt.getTime() / 1000,
     );
 
