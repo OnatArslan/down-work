@@ -94,7 +94,7 @@ export const signIn = async (req, res, next) => {
       expiresIn: `2 days`,
     });
 
-    // Send token via cookie
+    // Send token via cookiee
     // Note it token payload contains all user data
     res.cookie(`token`, token, {
       httpOnly: true,
