@@ -110,7 +110,7 @@ export const signIn = async (req, res, next) => {
     next(error);
   }
 };
-// Logout controller
+// Logout controller --
 export const logOut = async (req, res, next) => {
   try {
     // Clear jwt token from cookies
