@@ -79,7 +79,7 @@ export const signIn = async (req, res, next) => {
         email: email,
       },
     });
-    // If user can not find with given email return error with correct message
+    // If a user cannot find with given email return error with correct message
     if (!user) {
       return next(new Error(`Invalid email`));
     }
