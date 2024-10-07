@@ -1,4 +1,4 @@
-import prisma from '../db/prisma.mjs';
+import prisma from "../db/prisma.mjs";
 // Here define all controllers for contract model
 export const getAllContracts = async (req, res, next) => {
   try {
