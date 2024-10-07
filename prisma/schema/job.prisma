@@ -5,8 +5,8 @@ model Job {
   budget      Decimal
   paymentType PaymentType
   status      Status      @default(open)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
   // Releatinships
   employerId  Int
   employer    User        @relation(fields: [employerId], references: [id], onDelete: Cascade)
@@ -14,8 +14,7 @@ model Job {
   proposals Proposal[]
 
   contracts Contract[]
-  
-  reviews Review[]
+  Review    Review[]
 
   @@map("job")
 }
