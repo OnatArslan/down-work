@@ -20,7 +20,6 @@ import contractRouter from "./routers/contractRouter.mjs";
 import messageRouter from "./routers/messageRouter.mjs";
 import notificationRouter from "./routers/notificationRouter.mjs";
 import friendshipRouter from "./routers/friendshipRouter.mjs";
-import { isNumberObject } from "node:util/types";
 
 // Create app
 const app = express();
