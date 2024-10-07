@@ -1,10 +1,11 @@
-
 model Follows {
   followedById Int
-  followedBy   User @relation("followedBy", fields: [followedById], references: [id])
+  followedBy   User         @relation("followedBy", fields: [followedById], references: [id])
   followingId  Int
-  following    User @relation("following", fields: [followingId], references: [id])
-  status FollowStatus @default(pending) 
+  following    User         @relation("following", fields: [followingId], references: [id])
+  status       FollowStatus @default(pending)
+  sendedAt     DateTime     @default(now())
+
   @@id([followingId, followedById])
   @@map("follows")
 }

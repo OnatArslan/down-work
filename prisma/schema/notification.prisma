@@ -1,12 +1,11 @@
+model Notification {
+  id         Int    @id @default(autoincrement())
+  subject    String
+  text       String
+  receiverId Int
+  receiver   User   @relation(fields: [receiverId], references: [id], onDelete: Cascade)
 
-model Notification{
-    id Int @id @default(autoincrement())
-    subject String
-    text String
-    receiverId Int
-    receiver User @relation(fields: [receiverId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 
-    createdAt         DateTime @default(now())
-    updatedAt         DateTime @updatedAt
-    @@map("notification")
+  @@map("notification")
 }

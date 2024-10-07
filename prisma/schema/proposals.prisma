@@ -1,22 +1,21 @@
-
 model Proposal {
-    id          Int         @id @default(autoincrement())
-    text String @db.Text
-    price Decimal
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    status ProposalStatus @default(pending)
-    freelancer User @relation("sendedProposals",fields: [freelancerId],references: [id], onDelete: Cascade)
-    freelancerId Int
-    clientId Int
-    client User @relation("recievedProposals",fields: [clientId],references: [id], onDelete: Cascade)
-    jobId Int
-    job Job @relation(fields: [jobId], references: [id], onDelete: Cascade)
-    @@map("proposal")
+  id           Int            @id @default(autoincrement())
+  text         String         @db.Text
+  price        Decimal
+  sendedAt     DateTime       @default(now())
+  status       ProposalStatus @default(pending)
+  freelancer   User           @relation("sendedProposals", fields: [freelancerId], references: [id], onDelete: Cascade)
+  freelancerId Int
+  clientId     Int
+  client       User           @relation("recievedProposals", fields: [clientId], references: [id], onDelete: Cascade)
+  jobId        Int
+  job          Job            @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@map("proposal")
 }
 
-enum ProposalStatus{
-    pending
-    accepted
-    declined
+enum ProposalStatus {
+  pending
+  accepted
+  declined
 }
