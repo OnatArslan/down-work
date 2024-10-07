@@ -1,5 +1,5 @@
-import prisma from '../db/prisma.mjs';
-import jobSchema from '../joi/job.mjs';
+import prisma from "../db/prisma.mjs";
+import jobSchema from "../joi/job.mjs";
 // DONE
 export const getAllJobs = async (req, res, next) => {
   try {
@@ -8,8 +8,8 @@ export const getAllJobs = async (req, res, next) => {
     const {
       page = 1,
       limit = 100,
-      sort = 'createdAt',
-      order = 'desc',
+      sort = "createdAt",
+      order = "desc",
       fields,
       ...filters
     } = req.query;
@@ -110,21 +110,11 @@ export const getJob = async (req, res, next) => {
 // DONE
 export const createJob = async (req, res, next) => {
   try {
-    // Validation part with joi(can be done with zod)
-    const validData = await jobSchema.validateAsync({
-      ...req.body,
-      employerId: req.user.id,
-    });
-    // If validation failed ...
-    if (validData.error) {
-      return next(new Error(validData.error));
-    }
     let newJob;
     try {
       newJob = await prisma.job.create({
-        data: { ...validData, employerId: req.user.id },
+        data: { ...req.body, employerId: req.user.id },
         omit: {
-          updatedAt: true,
           employerId: true,
         },
       });
@@ -184,8 +174,8 @@ export const deleteJob = async (req, res, next) => {
     } catch (error) {
       return next(
         new Error(
-          `Can not find this job post or you are trying to delete other user's post`
-        )
+          `Can not find this job post or you are trying to delete other user's post`,
+        ),
       );
     }
     // Send response
