@@ -1,33 +1,32 @@
 model User {
-  id                Int      @id @default(autoincrement())
-  username          String
-  email             String   @unique
-  bio               String?
-  password          String
-  profilePictureUrl String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  passwordChangedAt DateTime @default(now())
-  role              Role     @default(client)
-  allowUnknownMessages Boolean @default(false)
+  id                   Int      @id @default(autoincrement())
+  username             String
+  email                String   @unique
+  bio                  String?
+  password             String
+  profilePictureUrl    String?
+  createdAt            DateTime @default(now())
+  passwordChangedAt    DateTime @default(now())
+  role                 Role     @default(client)
+  allowUnknownMessages Boolean  @default(false)
   // Rel between jobs O-M
-  createdJobs       Job[] 
+  createdJobs          Job[]
 
   // Rel between proposals
-  recieveddProposals Proposal[] @relation("recievedProposals")
-  sendedProposals Proposal[] @relation("sendedProposals")
+  recieveddProposals  Proposal[] @relation("recievedProposals")
+  sendedProposals     Proposal[] @relation("sendedProposals")
   // Rel for freelancers contracts
   freelancedContracts Contract[] @relation("freelancedContracts")
   // Rel for client contracts
-  clientContracts Contract[] @relation("clientContracts")
+  clientContracts     Contract[] @relation("clientContracts")
 
   // Rel for reviews which comes to freelancer
-  receivedReviews   Review[] @relation("receivedReviews")
+  receivedReviews Review[] @relation("receivedReviews")
   // Rel for reviews which client gives to freelancers jobs
-  givenReviews      Review[] @relation("givenReviews")
+  givenReviews    Review[] @relation("givenReviews")
 
   // Rel for sended messages
-  sendedMessages Message[] @relation("sendedMessages")
+  sendedMessages   Message[] @relation("sendedMessages")
   // Rel for recieved messages
   recievedMessages Message[] @relation("recievedMessages")
 
@@ -37,8 +36,9 @@ model User {
   // Rel for follows
   followedBy Follows[] @relation("followedBy")
   following  Follows[] @relation("following")
-   @@index([email])
-   @@map("user")
+
+  @@index([email])
+  @@map("user")
 }
 
 enum Role {
