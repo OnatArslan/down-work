@@ -3,6 +3,7 @@ model Proposal {
   text         String         @db.Text
   price        Decimal
   sendedAt     DateTime       @default(now())
+  answeredAt   DateTime       @updatedAt
   status       ProposalStatus @default(pending)
   freelancer   User           @relation("sendedProposals", fields: [freelancerId], references: [id], onDelete: Cascade)
   freelancerId Int

@@ -2,7 +2,6 @@ model Contract {
   id           Int            @id @default(autoincrement())
   totalPrice   Decimal
   createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
   jobId        Int
   job          Job            @relation(fields: [jobId], references: [id])
   status       ContractStatus @default(active)
