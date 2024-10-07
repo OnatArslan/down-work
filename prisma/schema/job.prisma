@@ -6,7 +6,6 @@ model Job {
   paymentType PaymentType
   status      Status      @default(open)
   createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
   // Releatinships
   employerId  Int
   employer    User        @relation(fields: [employerId], references: [id], onDelete: Cascade)
@@ -16,6 +15,7 @@ model Job {
   contracts Contract[]
   Review    Review[]
 
+  // table name in postgres will be job
   @@map("job")
 }
 
