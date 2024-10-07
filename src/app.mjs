@@ -38,7 +38,7 @@ app.use(compression());
 
 app.use(
   expressSession({
-    secret: "your-secret-key",
+    secret: process.env.SESSION_SECRET_KEY,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: true },
