@@ -1,6 +1,6 @@
 import prisma from "../db/prisma.mjs";
 import jobSchema from "../joi/job.mjs";
-// DONE
+
 export const getAllJobs = async (req, res, next) => {
   try {
     // 127.0.0.1:3000/jobs?page=2&sort=salary&order=asc&limit=100&fields=title,budget,location&status=open&paymentType=fixed
@@ -67,7 +67,6 @@ export const getAllJobs = async (req, res, next) => {
   }
 };
 
-// Function to get a job by ID field -
 export const getJob = async (req, res, next) => {
   try {
     const job = await prisma.job.findUnique({
@@ -107,7 +106,6 @@ export const getJob = async (req, res, next) => {
   }
 };
 
-// DONE
 export const createJob = async (req, res, next) => {
   try {
     let newJob;
@@ -130,7 +128,7 @@ export const createJob = async (req, res, next) => {
     next(error);
   }
 };
-// NOT DONE --
+
 export const updateJob = async (req, res, next) => {
   try {
     // commit sss
