@@ -73,9 +73,9 @@ export const sendFollowRequest = async (req, res, next) => {
     // Check if following user exist or id is current user's id
     if (!following || following.id === req.user.id) {
       return next(
-        new Error(
-          `Can not find any user with given ID or this ID belongs to your account!`,
-        ),
+          new Error(
+              `Can not find any user with given ID or this ID belongs to your account!`,
+          ),
       );
     }
     // Check if already follower if true return error
@@ -90,7 +90,7 @@ export const sendFollowRequest = async (req, res, next) => {
     });
     if (alreadyFollower) {
       return next(
-        new Error(`You are already follower of user :${following.username}`),
+          new Error(`You are already follower of user :${following.username}`),
       );
     }
     let follow;
@@ -103,9 +103,9 @@ export const sendFollowRequest = async (req, res, next) => {
       });
     } catch (error) {
       return next(
-        new Error(
-          `Pending request exist or user declined your first request.You can not spam follow request!!!`,
-        ),
+          new Error(
+              `Pending request exist or user declined your first request.You can not spam follow request!!!`,
+          ),
       );
     }
     await prisma.notification.create({
