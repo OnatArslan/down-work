@@ -47,15 +47,6 @@ export const signUp = async (req, res, next) => {
       maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days in milliseconds
     });
 
-    // Give a nice welcome email for user
-    const mail = await transport.sendMail({
-      from: '"Down Work Co.👻" <downwork@example.com>', // sender address
-      to: `${newUser.email}`, // list of receivers
-      subject: "Welcome Mail 🌲", // Subject line
-      text: "Welcome to our app.We are happy to see you❤️", // plain text body
-      html: "<b>Welcome</b>", // html body
-    });
-
     // return response and send user data
     res.status(200).json({
       status: `success`,
