@@ -2,7 +2,6 @@ import prisma from "../db/prisma.mjs";
 import userSchema from "../joi/user.mjs";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import transport from "../utils/mailer.mjs";
 
 // #TODO for zoc schema
 export const signUp = async (req, res, next) => {
@@ -74,6 +73,7 @@ export const signIn = async (req, res, next) => {
     if (!user) {
       return next(new Error(`Invalid email`));
     }
+
     // Check password if false return error
     const checkPassword = await bcrypt.compare(String(password), user.password);
     if (!checkPassword) {
@@ -109,10 +109,10 @@ export const logOut = async (req, res, next) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
     });
-    // Send response with message
+    // Send response with a message
     res.status(200).json({
       status: `success`,
-      message: `Successfuly logged out.`,
+      message: `Successfully logged out.`,
     });
   } catch (error) {
     next(error);
@@ -141,12 +141,12 @@ export const verify = async (req, res, next) => {
       );
     }
 
-    // Get user from database with token payload data
+    // Get user from a database with token payload data
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
     });
 
-    // If user does not exist, return an error and give a message
+    // If a user does not exist, return an error and give a message
     if (!user) {
       return next(
         new Error(
