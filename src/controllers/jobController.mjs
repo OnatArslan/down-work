@@ -1,5 +1,4 @@
 import prisma from "../db/prisma.mjs";
-import jobSchema from "../joi/job.mjs";
 
 export const getAllJobs = async (req, res, next) => {
   try {
@@ -131,11 +130,10 @@ export const createJob = async (req, res, next) => {
 
 export const updateJob = async (req, res, next) => {
   try {
-    // commit sss
     if (req.body.employerId || req.body.id) {
       return next(new Error(`Can not update employerId or id`));
     }
-    // Commit 2222
+
     let updatedJob;
     try {
       updatedJob = await prisma.job.update({
