@@ -1,5 +1,5 @@
-import { Decimal } from '@prisma/client/runtime/library';
-import prisma from '../db/prisma.mjs';
+import { Decimal } from "@prisma/client/runtime/library";
+import prisma from "../db/prisma.mjs";
 
 export const sendProposal = async (req, res, next) => {
   try {
@@ -9,7 +9,7 @@ export const sendProposal = async (req, res, next) => {
     const job = await prisma.job.findUnique({
       where: {
         id: Number(req.params.jobId),
-        status: 'open',
+        status: "open",
       },
       include: {
         employer: {
@@ -35,11 +35,11 @@ export const sendProposal = async (req, res, next) => {
     if (isProposalExist) {
       return next(
         new Error(
-          `You already have proposal for this post.Please wait to clients message`
-        )
+          `You already have proposal for this post.Please wait to clients message`,
+        ),
       );
     }
-    // Create proposal with given body data
+    // Create a proposal with given body data
     const newProposal = await prisma.proposal.create({
       data: {
         ...req.body,
@@ -114,8 +114,8 @@ export const getProposals = async (req, res, next) => {
         if (req.user.id !== job.employerId) {
           return next(
             new Error(
-              `This post not belong to you.You can not get proposals which not belong to you`
-            )
+              `This post not belong to you.You can not get proposals which not belong to you`,
+            ),
           );
         }
         if (job.proposals.length === 0) {
@@ -154,8 +154,8 @@ export const getProposals = async (req, res, next) => {
         if (!proposal) {
           return next(
             new Error(
-              `Don't have a proposal for this job.For send proposal please send POST request to /job/:jobId/proposals `
-            )
+              `Don't have a proposal for this job.For send proposal please send POST request to /job/:jobId/proposals `,
+            ),
           );
         }
         res.status(200).json({
