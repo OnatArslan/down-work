@@ -1,5 +1,6 @@
 import prisma from "../db/prisma.mjs";
 
+// #DONE
 export const getAllJobs = async (req, res, next) => {
   try {
     // 127.0.0.1:3000/jobs?page=2&sort=salary&order=asc&limit=100&fields=title,budget,location&status=open&paymentType=fixed
@@ -65,7 +66,7 @@ export const getAllJobs = async (req, res, next) => {
     next(error);
   }
 };
-
+// #DONE
 export const getJob = async (req, res, next) => {
   try {
     const job = await prisma.job.findUnique({
