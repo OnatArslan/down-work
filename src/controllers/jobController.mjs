@@ -117,7 +117,7 @@ export const createJob = async (req, res, next) => {
         employerId: Number(req.user.id),
       });
     } catch (error) {
-      return next(new Error(error));
+      return next(error);
     }
     // try {
     //   newJob = await prisma.job.create({
