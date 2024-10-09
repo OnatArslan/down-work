@@ -119,20 +119,20 @@ export const createJob = async (req, res, next) => {
     } catch (error) {
       return next(error);
     }
-    // try {
-    //   newJob = await prisma.job.create({
-    //     data: { ...req.body, employerId: req.user.id },
-    //     omit: {
-    //       employerId: true,
-    //     },
-    //   });
-    // } catch (error) {
-    //   return next(error);
-    // }
+    try {
+      newJob = await prisma.job.create({
+        data: { ...validData },
+        omit: {
+          employerId: true,
+        },
+      });
+    } catch (error) {
+      return next(error);
+    }
     // Send response
     res.status(200).json({
       status: `success`,
-      job: newJob,
+      job: validData,
     });
   } catch (error) {
     next(error);
