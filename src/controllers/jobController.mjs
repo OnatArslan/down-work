@@ -72,7 +72,7 @@ export const getJob = async (req, res, next) => {
       where: {
         // Use Number because this is an integer field but req.params.jobId is string
         id: Number(req.params.jobId),
-        // Only allow show open types
+        // Only allow showing open types
         status: `open`,
       },
       omit: {
