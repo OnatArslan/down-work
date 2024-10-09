@@ -70,9 +70,9 @@ app.get(`*`, async (req, res, next) => {
 });
 
 // Error-handling middleware
-app.use((err, res, next) => {
+app.use((err, req, res, next) => {
   console.error(err.message);
-  res.status(500).json({ error: err.message });
+  res.status(500).json({ error: err.stack });
 });
 
 export default server;

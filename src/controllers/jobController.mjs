@@ -1,4 +1,5 @@
 import prisma from "../db/prisma.mjs";
+import jobSchema from "../joi/job.mjs";
 
 // #DONE
 export const getAllJobs = async (req, res, next) => {
@@ -109,16 +110,25 @@ export const getJob = async (req, res, next) => {
 export const createJob = async (req, res, next) => {
   try {
     let newJob;
+    let validData;
     try {
-      newJob = await prisma.job.create({
-        data: { ...req.body, employerId: req.user.id },
-        omit: {
-          employerId: true,
-        },
+      validData = await jobSchema.parseAsync({
+        ...req.body,
+        employerId: Number(req.user.id),
       });
     } catch (error) {
-      return next(error);
+      return next(new Error(error));
     }
+    // try {
+    //   newJob = await prisma.job.create({
+    //     data: { ...req.body, employerId: req.user.id },
+    //     omit: {
+    //       employerId: true,
+    //     },
+    //   });
+    // } catch (error) {
+    //   return next(error);
+    // }
     // Send response
     res.status(200).json({
       status: `success`,
