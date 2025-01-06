@@ -23,5 +23,5 @@ router.use(verify, restrict([`client`]));
 
 router.route(`/`).post(createJob);
 router.route(`/:jobId`).patch(updateJob).delete(deleteJob);
-
+// Idk what is this
 export default router;
